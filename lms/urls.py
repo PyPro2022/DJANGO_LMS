@@ -1,3 +1,5 @@
+# /home/user/PycharmProjects/DJANGO/DJANGO_LMS/lms/urls.py
+
 """lms URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -16,9 +18,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from students.views import get_students
+from students.views import get_students, index
+from teachers.views import generate_teachers
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('get_students/', get_students),
+    path('', index),
+    path('generate_teachers/', generate_teachers),
 ]

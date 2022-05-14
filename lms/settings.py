@@ -1,3 +1,4 @@
+# /home/user/PycharmProjects/DJANGO/DJANGO_LMS/lms/settings.py
 """
 Django settings for lms project.
 
@@ -41,6 +42,9 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'students.apps.StudentsConfig',
+    'teachers.apps.TeachersConfig',
+    'groups.apps.GroupsConfig',
+
 ]
 
 MIDDLEWARE = [

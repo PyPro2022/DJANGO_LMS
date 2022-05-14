@@ -8,6 +8,13 @@ from webargs.fields import Str, Int
 from webargs.djangoparser import use_args
 
 
+def index(request):
+
+    return HttpResponse('LMS System!')
+
+
+
+
 @use_args(
     {
         'first_name': Str(required=False),       # , missing=None)

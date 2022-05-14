@@ -1,3 +1,5 @@
+# /home/user/PycharmProjects/DJANGO/DJANGO_LMS/students/models.py
+
 from django.db import models
 from faker import Faker
 
@@ -21,3 +23,4 @@ class Student(models.Model):
             )
 
             st.save()
+
