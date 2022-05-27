@@ -1,4 +1,4 @@
-
+# /home/user/PycharmProjects/DJANGO/DJANGO_LMS/students/utils.py
 def qs2html(qs):
     lst = []
     if qs is not None:
