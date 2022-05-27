@@ -1,13 +1,17 @@
 # /home/user/PycharmProjects/DJANGO/DJANGO_LMS/teachers/views.py
 
 from django.shortcuts import render
-# from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
 
+from .forms import TeacherCreateForm
 from .models import Teacher
 # from student.models import Student
+from .utils import qs2html
 
 from webargs.fields import Str, Int
 from webargs.djangoparser import use_args, use_kwargs
+
 
 @use_kwargs(
     {'cnt': Int(required=False)},
@@ -28,4 +32,65 @@ def generate_teachers(request, cnt=10, max_number = 100):
              'max':max_number}
         )
 
+
+
+@use_args(
+    {
+        'first_name': Str(required=False),  # , missing=None)
+        'last_name': Str(required=False),
+        'age': Int(required=False)
+    },
+    location='query'
+)
+def get_teachers(request, args):
+    tch = Teacher.objects.all()
+    for key, value in args.items():
+        tch = tch.filter(**{key: value})  # key=value
+
+    html_form = """
+            <a href = "/"> Home </a>
+        <br><br>
+
+        <form method="get">
+            <label for="fname">First name:</label><br>
+            <input type="text" id="fname" name="first_name" placeholder="Roberto"><br>
+            <label for="lname">Last name:</label><br>
+            <input type="text" id="lname" name="last_name" placeholder="Dilonici"><br>
+            <label for="age_id">Age:</label><br>
+            <input type="number" id="age_id" name="age" placeholder="54"><br>	<br>
+
+            <input type="submit" value="Search">
+        </form> 
+    """
+    html = qs2html(tch)
+    response = html_form + html
+
+    return HttpResponse(response)
+
+
+
+@csrf_exempt
+def create_teacher(request):
+    if request.method == 'GET':
+        form = TeacherCreateForm()
+    else:
+        form = TeacherCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('/teachers/')
+
+    html_form = f"""
+            <a href = "/"> Home </a>
+        <br><br>
+
+            <form method="post">
+                <table>
+                    {form.as_table()}
+                </table>
+                <input type="submit" value="Create">
+            </form> 
+        """
+
+    return HttpResponse(html_form)
 
