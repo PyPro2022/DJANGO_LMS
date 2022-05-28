@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %}
+<body>
+<!--экспериментирую с передачей аргументов-->
+    <form method={{method}}>
+        <form method="get">
+            <label for="group_name">Group name:</label><br>
+            <input type="text" id="group_name" name="group_name" placeholder="Random Group"><br>
+            <label for="date_of_start">Date of start:</label><br>
+            <input type="date" id="date_of_start" name="date_of_start" placeholder="2022-09-01"><br>
+            <label for="number_of_students">Number of students:</label><br>
+            <input type="number" id="number_of_students" name="number_of_students" placeholder="?"><br>	<br>
+
+            <input type="submit" value="Search">
+<!--        <input type="submit" value="Create">-->
+         {% if args %}
+                <button type="submit"><a href="{% url 'groups' %}">Back to list</a></button>
+         {% endif %}
+    </form>
+<!--        <button type="submit"><a href="create/">Create</a></button>-->
+    <br>
+    <br>
+
+<table cellspacing="5" cellpadding="10" border="0" width="75%">
+
+    {% for group in groups %}
+    <tr>
+<!--        <td>{{ forloop.counter }}</td>-->
+        <td>{{ group.group_id }}</td>
+        <td>{{ group.group_name }}</td>
+        <td>{{ group.number_of_students }}</td>
+        <td>{{ group.date_of_start }}</td>
+        <td><a href="update/{{ group.pk }}">Edit</a></td>
+        <td><a href="delete/{{ group.pk }}">Delete</a></td>
+
+        <!-- <br>-->
+        </tr>
+    {% endfor %}
+    </table>
+
+</body>
+{% endblock %}

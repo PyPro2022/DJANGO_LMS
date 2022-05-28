@@ -1,12 +1,22 @@
 # /home/user/PycharmProjects/DJANGO/DJANGO_LMS/teachers/views.py
+__all__ = ['generate_teachers',
+           'create_teacher',
+           'get_teachers',
+           'update_teacher',
+           'delete_teacher',
 
-from django.shortcuts import render
+]
+
+
+
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
+
 
 from .forms import TeacherCreateForm
 from .models import Teacher
-# from student.models import Student
 from .utils import qs2html
 
 from webargs.fields import Str, Int
@@ -43,29 +53,15 @@ def generate_teachers(request, cnt=10, max_number = 100):
     location='query'
 )
 def get_teachers(request, args):
-    tch = Teacher.objects.all()
+    th = Teacher.objects.all()
     for key, value in args.items():
-        tch = tch.filter(**{key: value})  # key=value
+        th = th.filter(**{key: value})  # key=value
 
-    html_form = """
-            <a href = "/"> Home </a>
-        <br><br>
-
-        <form method="get">
-            <label for="fname">First name:</label><br>
-            <input type="text" id="fname" name="first_name" placeholder="Roberto"><br>
-            <label for="lname">Last name:</label><br>
-            <input type="text" id="lname" name="last_name" placeholder="Dilonici"><br>
-            <label for="age_id">Age:</label><br>
-            <input type="number" id="age_id" name="age" placeholder="54"><br>	<br>
-
-            <input type="submit" value="Search">
-        </form> 
-    """
-    html = qs2html(tch)
-    response = html_form + html
-
-    return HttpResponse(response)
+    return render(
+        request,
+        'teachers/th_list.html',
+        {'title': 'List of teachers', 'teachers': th, 'method':"get", 'args':args}
+    )
 
 
 
@@ -80,17 +76,38 @@ def create_teacher(request):
 
             return HttpResponseRedirect('/teachers/')
 
-    html_form = f"""
-            <a href = "/"> Home </a>
-        <br><br>
+    return render(
+        request,
+        'teachers/th_create.html',
+        {'title': 'Create teacher', 'form': form}
+    )
 
-            <form method="post">
-                <table>
-                    {form.as_table()}
-                </table>
-                <input type="submit" value="Create">
-            </form> 
-        """
 
-    return HttpResponse(html_form)
+@csrf_exempt
+def update_teacher(request, pk):
+    teacher = Teacher.objects.get(pk=pk)
+    if request.method == 'GET':
+        form = TeacherCreateForm(instance=teacher)
+    else:
+        form = TeacherCreateForm(request.POST, instance=teacher)
+        if form.is_valid():
+            form.save()
 
+            return HttpResponseRedirect('/teachers/')
+
+    return render(
+        request, 'teachers/th_update.html',
+        {'title': 'Update teacher', 'form': form},
+    )
+
+
+
+def delete_teacher(request, pk):
+
+    teacher = get_object_or_404(Teacher, pk=pk)
+
+    if request.method == 'POST':
+        teacher.delete()
+        return HttpResponseRedirect(reverse('teachers'))
+
+    return render(request, 'teachers/th_delete.html', {'teacher': teacher})

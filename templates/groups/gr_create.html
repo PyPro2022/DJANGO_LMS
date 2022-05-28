@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Create group{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Create">
+        <button type="submit"><a href="{% url 'groups' %}">Back to list</a></button>
+    </form>
+{% endblock %}

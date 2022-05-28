@@ -1,13 +1,14 @@
 # .../DJANGO_LMS/students/validators.py
 import datetime
 
+from dateutil.relativedelta import relativedelta
 from django.core.exceptions import ValidationError
 
 ADULT_AGE_LIMIT = 18
 
 
 def adult_validator(birthday):
-    age = datetime.date.today().year - birthday.year
+    age = relativedelta(datetime.date.today(), birthday).years
     if age < ADULT_AGE_LIMIT:
         raise ValidationError('Age should be greater than 18 y.o.')
 

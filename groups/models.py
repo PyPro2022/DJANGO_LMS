@@ -19,17 +19,16 @@ class Group (models.Model):
                                    )
     group_name = models.CharField(
         max_length=30,
-        verbose_name='group_name',
+        verbose_name='group name',
         validators=[MinLengthValidator(2)]
                                   )
     number_of_students = models.PositiveSmallIntegerField(
         null=True,
-        blank = True,
-        verbose_name='stds_num',
+        verbose_name='number of students',
         validators = [max_student_number_validator]
                                                      )
 
-    date_of_start = models.DateField(verbose_name='dt_of_start')
+    date_of_start = models.DateField(verbose_name='date of start')
 
     @staticmethod
     def add_students():
