@@ -3,7 +3,7 @@
 {% block title %} {{title}} {% endblock %}
 
 {% block content %}
-<body>
+
 <!--экспериментирую с передачей аргументов-->
     <form method={{method}}>
         <label for="fname">First name: <sup>*</sup></label><br>
@@ -24,24 +24,35 @@
     <br>
     <br>
 
-<table cellspacing="5" cellpadding="10" border="0" width="75%">
+    <table class="table table-striped" cellspacing="5" cellpadding="10" border="0" width="100%">
+    <thead>
+    <tr>
+            <th>N</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Age</th>
+            <th>Phone number</th>
+            <th>✎</th>
+            <th>🗑</th>
+    </tr>
+    </thead>
 
     {% for teacher in teachers %}
     <tr>
-<!--        <td>{{ forloop.counter }}</td>-->
-        <td>{{ teacher.teacher_id }}</td>
+        <td>{{ forloop.counter }}</td>
+<!--        <td>{{ teacher.teacher_id }}</td>-->
         <td>{{ teacher.first_name }}</td>
         <td>{{ teacher.last_name }}</td>
         <td>{{ teacher.age }}</td>
-        <td>{{ teacher.birthday }}</td>
-        <td>{{ teacher.phone_number }}</td>
-        <td><a href="update/{{ teacher.pk }}">Edit</a></td>
-        <td><a href="delete/{{ teacher.pk }}">Delete</a></td>
+<!--        <td>{{ teacher.birthday }}</td>-->
+        <td>{% if teacher.phone_number %}{{ teacher.phone_number }}{% endif %}</td>
+        <td><a href="{% url 'update_teacher' teacher.pk %}">Edit</a></td>
+        <td><a href="{% url 'delete_teacher' teacher.pk %}">Delete</a></td>
 
         <!-- <br>-->
         </tr>
     {% endfor %}
     </table>
 
-</body>
+
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block title %} {{title}} {% endblock %}
 
 {% block content %}
-<body>
+
 <!--экспериментирую с передачей аргументов-->
     <form method={{method}}>
         <form method="get">
@@ -24,22 +24,33 @@
     <br>
     <br>
 
-<table cellspacing="5" cellpadding="10" border="0" width="75%">
+<table class="table table-striped" cellspacing="5" cellpadding="10" border="0" width="100%">
+    <thead>
+    <tr>
+            <th>N</th>
+            <th>Group</th>
+            <th>Number of students</th>
+            <th>Date of start</th>
+<!--            <th>Date of finish</th>-->
+            <th>✎</th>
+            <th>🗑</th>
+    </tr>
+    </thead>
 
     {% for group in groups %}
     <tr>
-<!--        <td>{{ forloop.counter }}</td>-->
-        <td>{{ group.group_id }}</td>
+        <td>{{ forloop.counter }}</td>
+<!--        <td>{{ group.group_id }}</td>-->
         <td>{{ group.group_name }}</td>
         <td>{{ group.number_of_students }}</td>
         <td>{{ group.date_of_start }}</td>
-        <td><a href="update/{{ group.pk }}">Edit</a></td>
-        <td><a href="delete/{{ group.pk }}">Delete</a></td>
+        <td><a href="{% url 'update_group' group.pk %}">Edit</a></td>
+        <td><a href="{% url 'delete_group' group.pk %}">Delete</a></td>
 
         <!-- <br>-->
         </tr>
     {% endfor %}
     </table>
 
-</body>
+
 {% endblock %}
