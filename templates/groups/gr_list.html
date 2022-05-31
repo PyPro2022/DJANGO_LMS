@@ -7,13 +7,21 @@
 <!--экспериментирую с передачей аргументов-->
     <form method={{method}}>
         <form method="get">
-            <label for="group_name">Group name:</label><br>
-            <input type="text" id="group_name" name="group_name" placeholder="Random Group"><br>
-            <label for="date_of_start">Date of start:</label><br>
-            <input type="date" id="date_of_start" name="date_of_start" placeholder="2022-09-01"><br>
-            <label for="number_of_students">Number of students:</label><br>
-            <input type="number" id="number_of_students" name="number_of_students" placeholder="?"><br>	<br>
-
+            <table>
+            <tr>
+                <td><label for="group_name" style="font-weight: bold;">Group name:</label></td>
+                <td><input type="text" id="group_name" name="group_name" placeholder="Random Group"><br></td>
+            </tr>
+                <tr>
+                    <td><label for="date_of_start" style="font-weight: bold;">Date of start:</label></td>
+                    <td><input type="date" id="date_of_start" name="date_of_start" placeholder="2022-09-01"></td>
+                </tr>
+                <tr>
+                    <td><label for="number_of_students" style="font-weight: bold;">Number of students:</label></td>
+                    <td><input type="number" id="number_of_students" name="number_of_students" placeholder="21 person max">
+                    </td>
+                </tr>
+            </table>
             <input type="submit" value="Search">
 <!--        <input type="submit" value="Create">-->
          {% if args %}
