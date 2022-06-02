@@ -54,7 +54,7 @@
 <!--        <td>{{ student.id }}</td>-->
         <td>{{ student.first_name }}</td>
         <td>{{ student.last_name }}</td>
-        <td>{{ student.age }}</td>
+        <td>{% if student.get_age %}{{ student.get_age }}{% endif %}</td>
 <!--        <td>{{ student.birthday }}</td>-->
         <td>{% if student.phone_number %}{{ student.phone_number }}{% endif %}</td>
         <td><a href="{% url 'update_student' student.pk %}">Edit</a></td>

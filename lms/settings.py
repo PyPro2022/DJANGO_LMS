@@ -1,4 +1,5 @@
 # /home/user/PycharmProjects/DJANGO/DJANGO_LMS/lms/settings.py
+
 """
 Django settings for lms project.
 

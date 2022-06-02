@@ -25,7 +25,7 @@ class Student(models.Model):
         verbose_name='last name',
         validators=[MinLengthValidator(2)]
     )
-    age = models.PositiveIntegerField()
+    # age = models.PositiveIntegerField()
 
     birthday = models.DateField(
         default=datetime.date.today,
@@ -40,7 +40,6 @@ class Student(models.Model):
         validators=[MinLengthValidator(10), uniqness_validator]
         )
 
-
     class Meta:
         verbose_name = 'student'
         verbose_name_plural = 'students'
@@ -48,10 +47,8 @@ class Student(models.Model):
     def __str__(self):
         return f'{self.id}. {self.first_name} {self.last_name} - {self.age} - {self.phone_number}'
 
-    def save(self, *args, **kwargs):
-        self.age = relativedelta(datetime.date.today(), self.birthday).years
-        # self.phone_number = normalize_phone_number(self.phone_number)
-        super().save(*args, **kwargs)
+    def get_age (self):
+        return relativedelta(datetime.date.today(), self.birthday).years
 
     @staticmethod
     def gen_students(cnt=10):
@@ -66,3 +63,9 @@ class Student(models.Model):
             )
 
             st.save()
+
+    def save(self, *args, **kwargs):
+        self.age = relativedelta(datetime.date.today(), self.birthday).years
+        # self.phone_number = normalize_phone_number(self.phone_number)
+        super().save(*args, **kwargs)
+
