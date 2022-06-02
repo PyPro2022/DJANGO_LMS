@@ -32,7 +32,7 @@ class Teacher (models.Model):
         verbose_name='last name',
         validators=[MinLengthValidator(2)]
                                  )
-    age = models.PositiveIntegerField()
+    # age = models.PositiveIntegerField()
 
     birthday = models.DateField(
         default=datetime.date.today,
@@ -54,9 +54,8 @@ class Teacher (models.Model):
     def __str__(self):
         return f'{self.teacher_id}. {self.first_name} {self.last_name} - {self.age} - {self.phone_number}'
 
-    def save(self, *args, **kwargs):
-        self.age = relativedelta(datetime.date.today(), self.birthday).years
-        super().save(*args, **kwargs)
+    def get_age (self):
+        return relativedelta(datetime.date.today(), self.birthday).years
 
 
 #Пусть пока полежит ))
@@ -72,6 +71,12 @@ class Teacher (models.Model):
             )
             tch.save()
 
+# Кладовка
 
+
+    # def save(self, *args, **kwargs):
+    #     self.age = relativedelta(datetime.date.today(), self.birthday).years
+    #     super().save(*args, **kwargs)
+    #
 
 
