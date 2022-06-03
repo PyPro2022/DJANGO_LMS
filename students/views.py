@@ -1,5 +1,5 @@
 # .../DJANGO_LMS/students/views.py
-__all__ = [
+__all__ = ['generate_students',
             'get_students',
            'create_student',
            'get_students',
@@ -16,9 +16,35 @@ from .forms import StudentCreateForm
 from .models import Student
 
 from webargs.fields import Str, Int, Date
-from webargs.djangoparser import use_args
+from webargs.djangoparser import use_args, use_kwargs
+
 
 # context = []
+@use_kwargs(
+    {'cnt': Int(required=False)},
+    location='query'
+)
+def generate_students(request, cnt=0, max_number=100):
+    if cnt == 10:
+        Student.gen_students(cnt=0)
+        return HttpResponseRedirect(reverse('students'))
+    else:
+        Student.gen_students(cnt=cnt)
+        if cnt:
+            return HttpResponseRedirect(reverse('students'))
+    return render(
+            request,
+            'students/generate_students.html',
+            {'title': 'Generate students',
+            'message01': f'Input the number of students (max = {max_number}) you wish to generate.',
+             # 'message02': f'{cnt} teacher(-s) has been generated',
+             'max':max_number}#, 'kwargs':kwargs}
+                )
+
+
+
+
+
 
 @use_args(
     {

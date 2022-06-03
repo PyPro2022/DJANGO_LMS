@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %}
+
+<body>
+<hr>
+<h2 align = "center"> Welcome to LMS students generator!</h2>
+<hr>
+{{message01}}.<br><br>
+
+<form method="get">
+<!--            {% csrf_token %}-->
+    <input type="number" min = 0 max ={{max}} id="cnt_id" name="cnt" placeholder="input cnt"><br>	<br>
+    <input class="btn btn-outline-secondary" type="submit" value="Generate">
+<!--{% if cnt > 0 %}<h5>{{message02}}</h5>{% endif %}-->
+    <hr>
+     </form>
+
+{% endblock %}
