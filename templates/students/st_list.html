@@ -1,43 +1,25 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_filters %}
+
 {% block title %}List of students{% endblock %}
 
 
 {% block content %}
-
-<!--экспериментирую с передачей аргументов-->
-    <form method={{method}}>
-        <table>
-            <tr>
-                <td><label for="fname" style="font-weight: bold;">First name:</label></td>
-                <td><input type="text" id="fname" name="first_name" placeholder="Bob"></td>
-            </tr>
-            <tr>
-                <td><label for="lname" style="font-weight: bold;">Last name:</label></td>
-                <td><input type="text" id="lname" name="last_name" placeholder="Dilan"></td>
-            </tr>
-            <tr>
-<!--                <td><input type="number" id="age_id" name="{{st.get_age}}" placeholder="130"></td>-->
-
-                <td><label for="birthday_id" style="font-weight: bold;">Birthday:</label></td>
-                <td><input type="date" id="birthday_id" name="birthday" placeholder="31.12.1991"></td>
-            </tr>
-            <tr>
-                <td><label for="ph_number" style="font-weight: bold;">Phone number:</label></td>
-                <td><input type="text" id="ph_number" name="phone_number" placeholder="0123456789"></td>
-            </tr>
-
-        </table>
-        <input type="submit" value="Search">
-<!--        <input type="submit" value="Create">-->
-         {% if args %}
-                <button type="submit"><a href="{% url 'students' %}">Back to list</a></button>
-         {% endif %}
-    </form>
-<!--        <button type="submit"><a href="create/">Create</a></button>-->
+            <form method="get">
+                {% csrf_token %}
+                <div class="col-md-3">
+                 {{ form | crispy }}
+                 </div>
+                    <div class="mt-2">
+                    <input class="btn btn-outline-primary" type="submit" value="Search">
+                    {% if args %}
+                    <a class="btn btn-outline-primary" href="{% url 'students' %}">Back to list</a>
+                {% endif%}
+                </div>
+            </form>
     <br>
     <br>
-
     <table class="table table-hover table-striped">
 <!--        cellspacing="5" cellpadding="10" border="0" width="100%"-->
     <thead class="table-bordered">
@@ -67,5 +49,4 @@
         </tr>
     {% endfor %}
     </table>
-
 {% endblock %}

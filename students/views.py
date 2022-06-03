@@ -1,5 +1,5 @@
 # .../DJANGO_LMS/students/views.py
-__all__ = ['index',
+__all__ = [
             'get_students',
            'create_student',
            'get_students',
@@ -20,10 +20,6 @@ from webargs.djangoparser import use_args
 
 # context = []
 
-def index(request):
-    return render(request, 'index.html')
-
-
 @use_args(
     {
         'first_name': Str(required=False),
@@ -33,14 +29,17 @@ def index(request):
     location='query'
 )
 def get_students(request, args):
-    st = Student.objects.all()
-    for key, value in args.items():
-        st = st.filter(**{key: value})
-    return render(
-        request,
-        'students/st_list.html',
-        {'title': 'List of students', 'students': st, 'method':"get", 'args':args}
-    )
+    if request.method == 'GET':
+        form = StudentCreateForm()
+        st = Student.objects.all()
+        for key, value in args.items():
+            st = st.filter(**{key: value})
+        return render(
+            request,
+            'students/st_list.html',
+            {'title': 'List of students', 'students': st, 'method':"get", 'args':args, 'form': form}
+        )
+
 
 
 def create_student(request):

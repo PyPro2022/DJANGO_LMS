@@ -131,3 +131,5 @@ dmypy.json
 
 _README.md
 
+/templates/students/accordion.html
+/templates/students/st_list_old.html
