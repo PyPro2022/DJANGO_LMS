@@ -5,12 +5,12 @@
 {% block title %} {{title}} {% endblock %}
 
 {% block content %}
-<body>
        <form method="post">
            {% csrf_token %}
-                   {{ form | crispy }}
-                <input type="submit" value="Update">
-        <button type="submit"><a href="{% url 'students' %}">Back to list</a></button>
+                <div class="col-md-3">
+                 {{ form | crispy }}
+                 </div>
+                <input class="btn btn-outline-success" type="submit" value="Update">
+        <a class="btn btn-outline-primary" href="{% url 'students' %}">Back to list</a>
     </form>
-</body>
 {% endblock %}
