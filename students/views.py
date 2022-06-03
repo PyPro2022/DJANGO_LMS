@@ -15,7 +15,7 @@ from django.urls import reverse
 from .forms import StudentCreateForm
 from .models import Student
 
-from webargs.fields import Str, Int
+from webargs.fields import Str, Int, Date
 from webargs.djangoparser import use_args
 
 # context = []
@@ -28,7 +28,7 @@ def index(request):
     {
         'first_name': Str(required=False),
         'last_name': Str(required=False),
-        'age': Int(required=False),
+        'birthday': Date(required=False),
         },
     location='query'
 )

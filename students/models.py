@@ -64,8 +64,8 @@ class Student(models.Model):
 
             st.save()
 
-    def save(self, *args, **kwargs):
-        self.age = relativedelta(datetime.date.today(), self.birthday).years
-        # self.phone_number = normalize_phone_number(self.phone_number)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.age = relativedelta(datetime.date.today(), self.birthday).years
+    #     # self.phone_number = normalize_phone_number(self.phone_number)
+    #     super().save(*args, **kwargs)
 
