@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
+    'crispy_forms',
+    'crispy_bootstrap5',
 
     'students.apps.StudentsConfig',
     'teachers.apps.TeachersConfig',
@@ -147,3 +149,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 USE_L10N = False
 DATE_FORMAT = 'd. m. Y'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
