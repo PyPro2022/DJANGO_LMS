@@ -30,7 +30,6 @@ class TeacherCreateForm(forms.ModelForm):
         ln = self.cleaned_data['last_name']
         return ln.title()
 
-
     def clean_phone_number(self):
         phone_num = self.cleaned_data['phone_number']
         try:

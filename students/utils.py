@@ -10,18 +10,17 @@ def qs2html(qs):
 
     return '<br>'.join(lst)
 
-#Первый вариант валидатора. Пусть пока полежит.
+
+# Первый вариант валидатора. Пусть пока полежит.
 def normalize_phone_number(phone_num):
     try:
         if phone_num.isnumeric():
             return phone_num
         else:
-            s=''
+            s = ''
             for i in phone_num:
                 if i.isdigit():
-                    s = s+i
+                    s = s + i
             return s
     except AttributeError:
         return None
-
-

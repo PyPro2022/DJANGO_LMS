@@ -10,17 +10,14 @@ def qs2html(qs):
 
     return '<br>'.join(lst)
 
+
 # можно реализовать в виде класса
 def normalize_phone_number(phone_num):
     if phone_num.isnumeric():
         return phone_num
     else:
-        s=''
+        s = ''
         for i in phone_num:
             if i.isdigit():
-                s = s+i
+                s = s + i
         return s
-
-
-
-

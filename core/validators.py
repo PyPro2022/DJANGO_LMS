@@ -25,12 +25,8 @@ class AdultValidator:
             raise ValidationError(f'Age should be greater than {self.age_limit} y.o.')
 
 
-
 def uniqness_validator(new_phone_number):
     from student.models import Student
     st = Student.objects.filter(phone_number=new_phone_number).exists()
     if st:
-        raise ValidationError(f'This phone number is not unique! Enter other phone number')
-
-
-
+        raise ValidationError('This phone number is not unique! Enter other phone number')
