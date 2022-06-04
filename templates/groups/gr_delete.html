@@ -10,7 +10,7 @@
                 {{ group.group_name }}
             </span>?
         </p>
-        <input type="submit" value="Agree">
-        <button type="submit"><a href="{% url 'groups' %}">Back to list</a></button>
+            <input class="btn btn-outline-danger" type="submit" value="Agree">
+        <a class="btn btn-outline-primary" href="{% url 'students' %}">Back to list</a>
     </form>
 {% endblock %}

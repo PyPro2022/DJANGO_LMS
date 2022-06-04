@@ -42,10 +42,6 @@ def generate_students(request, cnt=0, max_number=100):
                 )
 
 
-
-
-
-
 @use_args(
     {
         'first_name': Str(required=False),

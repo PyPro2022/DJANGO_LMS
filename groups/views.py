@@ -31,15 +31,17 @@ from django.urls import reverse
     location='query'
 )
 def get_groups(request, args):
-    gr = Group.objects.all()
-    for key, value in args.items():
-        gr = gr.filter(**{key: value})  # key=value
+    if request.method == 'GET':
+        form = GroupCreateForm()
+        gr = Group.objects.all()
+        for key, value in args.items():
+            gr = gr.filter(**{key: value})  # key=value
 
-    return render(
-        request,
-        'groups/gr_list.html',
-        {'title': 'List of groups', 'groups': gr, 'method':"get", 'args':args}
-    )
+        return render(
+            request,
+            'groups/gr_list.html',
+            {'title': 'List of groups', 'groups': gr, 'method':"get", 'args':args, 'form':form}
+        )
 
 def create_group(request):
     if request.method == 'GET':
