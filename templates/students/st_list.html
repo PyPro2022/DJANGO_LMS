@@ -6,18 +6,8 @@
 
 
 {% block content %}
-            <form method="get">
-                {#{% csrf_token %}#}
-                <div class="col-md-3">
-                 {{ students_filter.form | crispy }}
-                 </div>
-                    <div class="mt-2">
-                    <input class="btn btn-outline-primary" type="submit" value="Search">
-                    {% if students_filter.data %}
-                    <a class="btn btn-outline-primary" href="{% url 'students' %}">Back to list</a>
-                {% endif%}
-                </div>
-            </form>
+
+{%include 'includes/accordion.html'%}
     <br>
     <br>
     <table class="table table-hover table-striped">
