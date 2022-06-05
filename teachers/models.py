@@ -1,9 +1,13 @@
 # .../teachers/models.py
 
 import datetime
+import random
+
 from dateutil.relativedelta import relativedelta
 
 from django.db import models
+
+from groups.models import Group
 
 from core.validators import AdultValidator
 from django.core.validators import MinLengthValidator
@@ -12,7 +16,7 @@ from .validators import uniqness_validator
 from faker import Faker
 
 from .utils import normalize_phone_number
-from groups.models import Group
+
 
 
 class Teacher(models.Model):
@@ -73,9 +77,20 @@ class Teacher(models.Model):
                 first_name=fk.first_name(),
                 last_name=fk.last_name(),
                 birthday=fk.date_between(start_date='-55y', end_date='-25y'),
-                phone_number=normalize_phone_number(fk.phone_number())
+                phone_number=normalize_phone_number(fk.phone_number()),
+                group = random.choice(Group.objects.all())
             )
             tch.save()
+
+    @staticmethod
+    def set_groups():
+        th = Teacher.objects.all()
+        for i in th:
+            i.group = random.choice(Group.objects.all())
+            i.save()
+
+
+
 
 # Кладовка
 

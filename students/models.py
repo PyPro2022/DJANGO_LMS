@@ -1,10 +1,12 @@
 # .../DJANGO_LMS/students/models.py
+import datetime
 import random
 
-import datetime
 from dateutil.relativedelta import relativedelta
 
 from django.db import models
+
+from groups.models import Group
 
 from core.validators import AdultValidator
 from django.core.validators import MinLengthValidator
@@ -14,7 +16,7 @@ from faker import Faker
 
 from .utils import normalize_phone_number
 
-from groups.models import Group
+
 
 
 class Student(models.Model):
@@ -75,11 +77,12 @@ class Student(models.Model):
             st.save()
 
     @staticmethod
-    def set_group():
+    def set_groups():
         st = Student.objects.all()
         for i in st:
             i.group = random.choice(Group.objects.all())
             i.save()
+
 
 # Кладовка: #noqa
 
