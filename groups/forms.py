@@ -11,9 +11,9 @@ class GroupCreateForm(forms.ModelForm):
         fields = [
             # '__all__'
             'group_name',
-            # 'number_of_students',
+            'number_of_students',
             'date_of_start',
-            # 'date_of_end',
+            'date_of_end',
 
         ]
 

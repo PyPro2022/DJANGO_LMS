@@ -2,22 +2,14 @@
 
 {% load crispy_forms_filters %}
 
-{% block title %} {{title}} {% endblock %}
+{% block title %} List of teachers {% endblock %}
 
 {% block content %}
 
-            <form method="get">
-                {% csrf_token %}
-                <div class="col-md-3">
-                 {{ form | crispy }}
-                 </div>
-                    <div class="mt-2">
-                    <input class="btn btn-outline-primary" type="submit" value="Search">
-                    {% if args %}
-                    <a class="btn btn-outline-primary" href="{% url 'teachers' %}">Back to list</a>
-                {% endif%}
-                </div>
-            </form>
+{%with app_name=teachers app_name_filter=teachers_filter route='teachers'%}
+{% include 'includes/accordion.html' %}
+{% endwith %}
+
     <br>
     <br>
 
@@ -35,7 +27,7 @@
             <th style="width: 5%"><i class="bi bi-trash3-fill"></i></th>        </tr>
     </thead>
 
-    {% for teacher in teachers %}
+    {% for teacher in teachers_filter.qs %}
     <tr>
         <td>{{ forloop.counter }}</td>
 <!--        <td>{{ teacher.teacher_id }}</td>-->
@@ -44,8 +36,8 @@
         <td>{% if teacher.get_age %}{{ teacher.get_age }}{% endif %}</td>
         <td>{{ teacher.birthday }}</td>
         <td>{% if teacher.phone_number %}{{ teacher.phone_number }}{% endif %}</td>
-        <td>{% if teacher.group %}{{ teacher.group.group_id }}{% endif %}</td>
-<!--        <td>{% if teacher.group %}{{ teacher.group.group_name }}{% endif %}</td>-->
+<!--        <td>{% if teacher.group %}{{ teacher.group.group_id }}{% endif %}</td>-->
+        <td>{% if teacher.group %}{{ teacher.group.group_name }}{% endif %}</td>
         <td><a href="{% url 'update_teacher' teacher.pk %}">Edit</a></td>
         <td><a href="{% url 'delete_teacher' teacher.pk %}">Delete</a></td>
         </tr>

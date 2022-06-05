@@ -7,7 +7,10 @@
 
 {% block content %}
 
-{%include 'students/accordion.html'%}
+{%with app_name=students app_name_filter=students_filter route='students'%}
+{% include 'includes/accordion.html' %}
+{% endwith %}
+
     <br>
     <br>
     <table class="table table-hover table-striped">
@@ -15,8 +18,8 @@
     <thead class="table-bordered">
         <tr>
             <th style="width: 5%">N</th>
-            <th style="width: 25%">First name</th>
-            <th style="width: 25%">Last name</th>
+            <th style="width: 15%">First name</th>
+            <th style="width: 15%">Last name</th>
             <th style="width: 5%">Age</th>
             <th style="width: 15%">Birthday</th>
             <th><i class="bi bi-telephone-fill"></i></th>
@@ -34,7 +37,7 @@
         <td>{% if student.get_age %}{{ student.get_age }}{% endif %}</td>
         <td>{{ student.birthday }}</td>
         <td>{% if student.phone_number %}{{ student.phone_number }}{% endif %}</td>
-        <td>{% if student.group %}{{ student.group.group_id }}{% endif %}</td>
+        <td>{% if student.group %}{{ student.group.group_name }}{% endif %}</td>
         <td><a href="{% url 'update_student' student.pk %}">Edit</a></td>
         <td><a href="{% url 'delete_student' student.pk %}">Delete</a></td>
 

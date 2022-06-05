@@ -14,7 +14,7 @@ from django.urls import reverse
 from webargs.djangoparser import use_args, use_kwargs  # noqa
 from webargs.fields import Int, Str   # noqa
 
-from .forms import TeacherCreateForm
+from .forms import TeacherCreateForm, TeacherFilterForm
 from .models import Teacher
 
 
@@ -39,27 +39,14 @@ def generate_teachers(request, cnt=0, max_number=100):
          'max': max_number}  # , 'kwargs':kwargs}
     )
 
-
-@use_args(
-    {
-        'first_name': Str(required=False),  # , missing=None)
-        'last_name': Str(required=False),
-        'age': Int(required=False)
-    },
-    location='query'
-)
-def get_teachers(request, args):
-    if request.method == 'GET':
-        form = TeacherCreateForm()
-        th = Teacher.objects.all()
-        for key, value in args.items():
-            th = th.filter(**{key: value})
-
-        return render(
-            request,
-            'teachers/th_list.html',
-            {'title': 'List of teachers', 'teachers': th, 'method': "get", 'args': args, 'form': form}
-        )
+def get_teachers(request):
+    teachers = Teacher.objects.all()
+    teachers_filter = TeacherFilterForm(data=request.GET, queryset=teachers)
+    return render(
+        request,
+        'teachers/th_list.html',
+        {'teachers_filter': teachers_filter}  # , 'teachers': teachers}
+    )
 
 
 def create_teacher(request):
@@ -104,3 +91,27 @@ def delete_teacher(request, pk):
         return HttpResponseRedirect(reverse('teachers'))
 
     return render(request, 'teachers/th_delete.html', {'teacher': teacher})
+
+# Кладовка
+
+# @use_args(
+#     {
+#         'first_name': Str(required=False),  # , missing=None)
+#         'last_name': Str(required=False),
+#         'age': Int(required=False)
+#     },
+#     location='query'
+# )
+# def get_teachers(request, args):
+#     if request.method == 'GET':
+#         form = TeacherCreateForm()
+#         th = Teacher.objects.all()
+#         for key, value in args.items():
+#             th = th.filter(**{key: value})
+# 
+#         return render(
+#             request,
+#             'teachers/th_list.html',
+#             {'title': 'List of teachers', 'teachers': th, 'method': "get", 'args': args, 'form': form}
+#         )
+
