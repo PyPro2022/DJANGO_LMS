@@ -27,33 +27,41 @@ class Group(models.Model):
         verbose_name='number of students',
         validators=[max_student_number_validator]
     )
-
     date_of_start = models.DateField(verbose_name='date of start')
-
     date_of_end = models.DateField(null=True, verbose_name='date of end')
-
-    class Meta:
-        db_table = 'group'
-
-
-    @staticmethod
-    def add_students():
-        pass
-
-    @staticmethod
-    def set_teacher():
-        pass
-
-    @staticmethod
-    def set_date_of_start():
-        pass
 
     class Meta:
         verbose_name = 'group'
         verbose_name_plural = 'groups'
-
-    # def __str__(self):
-    #     return f'{self.group_name} {self.lst_of_stdts} {self.date_of_start} {self.grp_teacher}'
+        db_table = 'groups'
 
     def __str__(self):
         return f'{self.group_id}. {self.group_name}  -  {self.date_of_start}  -  {self.number_of_students}'
+
+    def get_number_of_students(self):
+        from students.models import Student
+        return len(Student.objects.filter(group_id=self.group_id))
+
+
+
+
+
+
+
+
+# Кладовка
+
+# @staticmethod
+# def add_students():
+#     pass
+#
+# @staticmethod
+# def set_teacher():
+#     pass
+#
+# @staticmethod
+# def set_date_of_start():
+#     pass
+
+# def __str__(self):
+#     return f'{self.group_name} {self.lst_of_stdts} {self.date_of_start} {self.grp_teacher}'
