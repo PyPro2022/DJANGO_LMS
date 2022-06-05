@@ -30,6 +30,12 @@ class Group(models.Model):
 
     date_of_start = models.DateField(verbose_name='date of start')
 
+    date_of_end = models.DateField(null=True, verbose_name='date of end')
+
+    class Meta:
+        db_table = 'group'
+
+
     @staticmethod
     def add_students():
         pass

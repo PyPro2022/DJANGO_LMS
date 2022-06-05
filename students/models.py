@@ -13,6 +13,8 @@ from faker import Faker
 
 from .utils import normalize_phone_number
 
+from groups.models import Group
+
 
 class Student(models.Model):
     first_name = models.CharField(
@@ -40,9 +42,17 @@ class Student(models.Model):
         validators=[MinLengthValidator(10), uniqness_validator]
     )
 
+    group = models.ForeignKey(
+        Group,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='students'
+    )
+
     class Meta:
         verbose_name = 'student'
         verbose_name_plural = 'students'
+        db_table = 'students'
 
     def __str__(self):
         return f'{self.id}. {self.first_name} {self.last_name} - {self.age} - {self.phone_number}'
@@ -61,7 +71,6 @@ class Student(models.Model):
                 phone_number=normalize_phone_number(fk.phone_number())
             )
             st.save()
-
 
 # Кладовка: #noqa
 
