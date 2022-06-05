@@ -1,4 +1,5 @@
 # .../DJANGO_LMS/students/models.py
+import random
 
 import datetime
 from dateutil.relativedelta import relativedelta
@@ -68,9 +69,17 @@ class Student(models.Model):
                 first_name=fk.first_name(),
                 last_name=fk.last_name(),
                 birthday=fk.date_between(start_date='-65y', end_date='-15y'),
-                phone_number=normalize_phone_number(fk.phone_number())
+                phone_number=normalize_phone_number(fk.phone_number()),
+                group = random.choice(Group.objects.all())
             )
             st.save()
+
+    @staticmethod
+    def set_group():
+        st = Student.objects.all()
+        for i in st:
+            i.group = random.choice(Group.objects.all())
+            i.save()
 
 # Кладовка: #noqa
 
