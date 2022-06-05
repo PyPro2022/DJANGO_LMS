@@ -1,4 +1,5 @@
 # .../DJANGO_LMS/students/views.py
+
 __all__ = ['generate_students',
            'create_student',
            'get_students',
@@ -10,14 +11,13 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from webargs.djangoparser import use_args, use_kwargs
-from webargs.fields import Date, Int, Str
+from webargs.djangoparser import use_kwargs  # ,use_args
+from webargs.fields import Int  # ,Str, Date
 
-from .forms import StudentCreateForm
+from .forms import StudentCreateForm, StudentFilterForm
 from .models import Student
 
 
-# context = []
 @use_kwargs(
     {'cnt': Int(required=False)},
     location='query'
@@ -40,25 +40,14 @@ def generate_students(request, cnt=0, max_number=100):
     )
 
 
-@use_args(
-    {
-        'first_name': Str(required=False),
-        'last_name': Str(required=False),
-        'birthday': Date(required=False),
-    },
-    location='query'
-)
-def get_students(request, args):
-    if request.method == 'GET':
-        form = StudentCreateForm()
-        st = Student.objects.all()
-        for key, value in args.items():
-            st = st.filter(**{key: value})
-        return render(
-            request,
-            'students/st_list.html',
-            {'title': 'List of students', 'students': st, 'method': "get", 'args': args, 'form': form}
-        )
+def get_students(request):
+    students = Student.objects.all()
+    students_filter = StudentFilterForm(data=request.GET, queryset=students)
+    return render(
+        request,
+        'students/st_list.html',
+        {'students_filter': students_filter}  # , 'students': students}
+    )
 
 
 def create_student(request):
@@ -98,6 +87,28 @@ def delete_student(request, pk):
         return HttpResponseRedirect(reverse('students'))
     return render(request, 'students/st_delete.html', {'student': student})
 
-# попытка реализовть вывод содержимого _README.md на главную страницу LMS. Пусть пока полежит. #noqa
+# Кладовка
+# попытка реализовать вывод содержимого _README.md на главную страницу LMS. Пусть пока полежит. #noqa
 # def readme_md(request):                                                                      #noqa
 #     return render(request, 'README.html')                                                    #noqa
+
+
+# @use_args(
+#     {
+#         'first_name': Str(required=False),
+#         'last_name': Str(required=False),
+#         'birthday': Date(required=False),
+#     },
+#     location='query'
+# )
+# def get_students(request, args):
+#     if request.method == 'GET':
+#         form = StudentCreateForm()
+#         st = Student.objects.all()
+#         for key, value in args.items():
+#             st = st.filter(**{key: value})
+#         return render(
+#             request,
+#             'students/st_list.html',
+#             {'title': 'List of students', 'students': st, 'method': "get", 'args': args, 'form': form}
+#         )
