@@ -1,11 +1,12 @@
 # ../groups/forms.py
 
 from django import forms
+from django_filters import FilterSet
 
 from .models import Group
 
 
-class GroupCreateForm(forms.ModelForm):
+class GroupBaseForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = [
@@ -16,17 +17,45 @@ class GroupCreateForm(forms.ModelForm):
             'date_of_end',
 
         ]
-
         widgets = {
             'date_of_start': forms.DateInput(attrs={'type': 'date'}),
             'date_of_end': forms.DateInput(attrs={'type': 'date'})
         }
+
+
+class GroupCreateForm(GroupBaseForm):
+    class Meta(GroupBaseForm.Meta):
+        exclude = [
+            # 'date_of_start',
+            'number_of_students',
+            'date_of_end',
+
+        ]
 
     # cleaned_data
     def clean_group_name(self):
         gn = self.cleaned_data['group_name']
         return gn.title()
 
-    # def clean_last_name(self):
-    #     ln = self.cleaned_data['last_name']
-    #     return ln.title()
+
+class GroupUpdateForm(GroupBaseForm):
+    class Meta(GroupBaseForm.Meta):
+        exclude = [
+            'date_of_start',
+            'number_of_students',
+
+        ]
+        
+class GroupFilterForm(FilterSet):
+    class Meta:
+        model = Group
+        fields = {
+            'group_name': ['exact', 'icontains'],
+            'date_of_start': ['exact', 'endswith'],
+        }
+
+
+# Кладовка
+# def clean_last_name(self):
+#     ln = self.cleaned_data['last_name']
+#     return ln.title()
