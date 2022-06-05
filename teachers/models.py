@@ -12,6 +12,7 @@ from .validators import uniqness_validator
 from faker import Faker
 
 from .utils import normalize_phone_number
+from groups.models import Group
 
 
 class Teacher(models.Model):
@@ -46,9 +47,17 @@ class Teacher(models.Model):
         validators=[MinLengthValidator(10), uniqness_validator]
     )
 
+    group = models.ForeignKey(
+        Group,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='teachers')
+
     class Meta:
         verbose_name = 'teacher'
         verbose_name_plural = 'teachers'
+        db_table = 'teachers'
+
 
     def __str__(self):
         return f'{self.teacher_id}. {self.first_name} {self.last_name} - {self.age} - {self.phone_number}'
@@ -56,7 +65,6 @@ class Teacher(models.Model):
     def get_age(self):
         return relativedelta(datetime.date.today(), self.birthday).years
 
-    # Пусть пока полежит ))
     @staticmethod
     def gen_teachers(cnt=10):
         fk = Faker('it_IT')
