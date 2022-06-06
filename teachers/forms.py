@@ -6,21 +6,27 @@ from django_filters import FilterSet
 from .models import Teacher
 
 
-class TeacherCreateForm(forms.ModelForm):
+class TeacherBaseForm(forms.ModelForm):
     class Meta:
         model = Teacher
         fields = [
-            # '__all__'
             'first_name',
             'last_name',
-            # 'age',
             'birthday',
-            'phone_number'
+            'phone_number',
+            'group',
         ]
-
         widgets = {
-            'birthday': forms.DateInput(attrs={'type': 'date'})
+            'birthday': forms.DateInput(attrs={'type': 'date'}),
         }
+
+
+class TeacherCreateForm(TeacherBaseForm):
+    class Meta(TeacherBaseForm.Meta):
+        exclude = [
+            # '__all__'
+            'group',
+        ]
 
     # cleaned_date
     def clean_first_name(self):
@@ -44,6 +50,18 @@ class TeacherCreateForm(forms.ModelForm):
                 return s
         except AttributeError:
             return None
+
+
+class TeacherUpdateForm(TeacherBaseForm):
+    class Meta(TeacherBaseForm.Meta):
+        exclude = []
+        #     'first_name',
+        #     'last_name',
+        #     'birthday',
+        #     'phone_number',
+        #     'group'
+        # ]
+
 
 class TeacherFilterForm(FilterSet):
     class Meta:

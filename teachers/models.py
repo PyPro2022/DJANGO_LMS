@@ -37,7 +37,6 @@ class Teacher(models.Model):
         validators=[MinLengthValidator(2)]
     )
     # age = models.PositiveIntegerField()
-
     birthday = models.DateField(
         default=datetime.date.today,
         verbose_name='birthday',
@@ -50,12 +49,13 @@ class Teacher(models.Model):
         verbose_name='phone number',
         validators=[MinLengthValidator(10), uniqness_validator]
     )
-
     group = models.ForeignKey(
         Group,
         on_delete=models.SET_NULL,
         null=True,
-        related_name='teachers')
+        blank=True,
+        related_name='teachers'
+    )
 
     class Meta:
         verbose_name = 'teacher'
@@ -64,7 +64,7 @@ class Teacher(models.Model):
 
 
     def __str__(self):
-        return f'{self.teacher_id}. {self.first_name} {self.last_name} - {self.age} - {self.phone_number}'
+        return f'{self.teacher_id}. {self.first_name} {self.last_name} - {self.birthday} - {self.phone_number}'
 
     def get_age(self):
         return relativedelta(datetime.date.today(), self.birthday).years
@@ -78,7 +78,7 @@ class Teacher(models.Model):
                 last_name=fk.last_name(),
                 birthday=fk.date_between(start_date='-55y', end_date='-25y'),
                 phone_number=normalize_phone_number(fk.phone_number()),
-                group = random.choice(Group.objects.all())
+                group=random.choice(Group.objects.all())
             )
             tch.save()
 

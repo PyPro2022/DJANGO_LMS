@@ -63,6 +63,7 @@ class StudentUpdateForm(StudentBaseForm):
         #     'group'
         # ]
 
+
 class StudentFilterForm(FilterSet):
     class Meta:
         model = Student

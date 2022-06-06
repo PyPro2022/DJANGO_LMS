@@ -14,7 +14,7 @@ from django.urls import reverse
 from webargs.djangoparser import use_args, use_kwargs  # noqa
 from webargs.fields import Int, Str   # noqa
 
-from .forms import TeacherCreateForm, TeacherFilterForm
+from .forms import TeacherCreateForm, TeacherFilterForm, TeacherUpdateForm
 from .models import Teacher
 
 
@@ -39,6 +39,7 @@ def generate_teachers(request, cnt=0, max_number=100):
          'max': max_number}  # , 'kwargs':kwargs}
     )
 
+
 def get_teachers(request):
     teachers = Teacher.objects.all()
     teachers_filter = TeacherFilterForm(data=request.GET, queryset=teachers)
@@ -56,9 +57,7 @@ def create_teacher(request):
         form = TeacherCreateForm(request.POST)
         if form.is_valid():
             form.save()
-
             return HttpResponseRedirect(reverse('teachers'))
-
     return render(
         request,
         'teachers/th_create.html',
@@ -68,15 +67,13 @@ def create_teacher(request):
 
 def update_teacher(request, pk):
     teacher = get_object_or_404(Teacher, pk=pk)
-    if request.method == 'GET':
-        form = TeacherCreateForm(instance=teacher)
-    else:
-        form = TeacherCreateForm(request.POST, instance=teacher)
+    if request.method == 'POST':
+        form = TeacherUpdateForm(request.POST, instance=teacher)
         if form.is_valid():
             form.save()
-
             return HttpResponseRedirect(reverse('teachers'))
-
+    else:
+        form = TeacherUpdateForm(instance=teacher)
     return render(
         request, 'teachers/th_update.html',
         {'title': 'Update teacher', 'form': form},
@@ -85,7 +82,6 @@ def update_teacher(request, pk):
 
 def delete_teacher(request, pk):
     teacher = get_object_or_404(Teacher, pk=pk)
-
     if request.method == 'POST':
         teacher.delete()
         return HttpResponseRedirect(reverse('teachers'))
