@@ -6,21 +6,28 @@ from django_filters import FilterSet
 from .models import Student
 
 
-class StudentCreateForm(forms.ModelForm):
+class StudentBaseForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = [
-            # '__all__'
             'first_name',
             'last_name',
-            # 'age',
             'birthday',
-            'phone_number'
+            'phone_number',
+            'group'
+        ]
+        widgets = {
+            'birthday': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+
+class StudentCreateForm(StudentBaseForm):
+    class Meta(StudentBaseForm.Meta):
+        exclude = [
+            # '__all__'
+            'group',
         ]
 
-        widgets = {
-            'birthday': forms.DateInput(attrs={'type': 'date'})
-        }
 
     # cleaned_date
     def clean_first_name(self):
@@ -46,6 +53,16 @@ class StudentCreateForm(forms.ModelForm):
             return None
 
 
+class StudentUpdateForm(StudentBaseForm):
+    class Meta(StudentBaseForm.Meta):
+        exclude = []
+        #     'first_name',
+        #     'last_name',
+        #     'birthday',
+        #     'phone_number',
+        #     'group'
+        # ]
+
 class StudentFilterForm(FilterSet):
     class Meta:
         model = Student
@@ -53,3 +70,6 @@ class StudentFilterForm(FilterSet):
             'first_name': ['exact', 'icontains'],
             'last_name': ['exact', 'startswith'],
         }
+
+
+

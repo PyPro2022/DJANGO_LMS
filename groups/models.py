@@ -27,8 +27,8 @@ class Group(models.Model):
         verbose_name='number of students',
         validators=[max_student_number_validator]
     )
-    date_of_start = models.DateField(verbose_name='date of start')
-    date_of_end = models.DateField(null=True, verbose_name='date of end')
+    date_of_start = models.DateField(null=True, blank=True, verbose_name='date of start')
+    date_of_end = models.DateField(null=True, blank=True, verbose_name='date of end')
 
     class Meta:
         verbose_name = 'group'

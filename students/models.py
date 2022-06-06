@@ -50,6 +50,7 @@ class Student(models.Model):
         Group,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name='students'
     )
 

@@ -14,7 +14,7 @@ from django.urls import reverse
 from webargs.djangoparser import use_kwargs  # ,use_args
 from webargs.fields import Int  # ,Str, Date
 
-from .forms import StudentCreateForm, StudentFilterForm
+from .forms import StudentCreateForm, StudentFilterForm, StudentUpdateForm
 from .models import Student
 
 
@@ -67,13 +67,13 @@ def create_student(request):
 
 def update_student(request, pk):
     student = get_object_or_404(Student, pk=pk)
-    if request.method == 'GET':
-        form = StudentCreateForm(instance=student)
-    else:
-        form = StudentCreateForm(request.POST, instance=student)
+    if request.method == 'POST':
+        form = StudentUpdateForm(request.POST, instance=student)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('students'))
+    else:
+        form = StudentUpdateForm(instance=student)
     return render(
         request, 'students/st_update.html',
         {'title': 'Update student', 'form': form},
