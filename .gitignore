@@ -129,7 +129,8 @@ dmypy.json
 .pyre/
 .idea/
 
+# Other
 _README.md
+README.md
+old/
 
-/templates/students/accordion.html
-/templates/students/st_list_old.html

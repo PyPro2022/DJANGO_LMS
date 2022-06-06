@@ -45,15 +45,15 @@ class GroupUpdateForm(GroupBaseForm):
             'number_of_students',
 
         ]
-        
+
+
 class GroupFilterForm(FilterSet):
     class Meta:
         model = Group
         fields = {
             'group_name': ['exact', 'icontains'],
-            'date_of_start': ['exact', 'endswith'],
+            'date_of_start': ['year', 'month', 'day'],
         }
-
 
 # Кладовка
 # def clean_last_name(self):

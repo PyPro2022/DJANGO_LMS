@@ -11,33 +11,18 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from webargs.djangoparser import use_args
-from webargs.fields import Date, Int,  Str
-
-from .forms import GroupCreateForm
+from .forms import GroupCreateForm, GroupFilterForm
 from .models import Group
 
 
-@use_args(
-    {
-        'group_name': Str(required=False),  # , missing=None)
-        'number_of_groups': Int(required=False),
-        'date_of_start': Date(required=False)
-    },
-    location='query'
-)
-def get_groups(request, args):
-    if request.method == 'GET':
-        form = GroupCreateForm()
-        gr = Group.objects.all()
-        for key, value in args.items():
-            gr = gr.filter(**{key: value})  # key=value
-
-        return render(
-            request,
-            'groups/gr_list.html',
-            {'title': 'List of groups', 'groups': gr, 'method': "get", 'args': args, 'form': form}
-        )
+def get_groups(request):
+    groups = Group.objects.all()
+    groups_filter = GroupFilterForm(data=request.GET, queryset=groups)
+    return render(
+        request,
+        'groups/gr_list.html',
+        {'groups_filter': groups_filter, 'title': 'List of groups'}  # , 'groups': groups}
+    )
 
 
 def create_group(request):
@@ -82,3 +67,30 @@ def delete_group(request, pk):
         return HttpResponseRedirect(reverse('groups'))
 
     return render(request, 'groups/gr_delete.html', {'group': group})
+
+# Кладовка
+
+# from webargs.djangoparser import use_args
+# from webargs.fields import Date, Int,  Str
+
+
+# @use_args(
+#     {
+#         'group_name': Str(required=False),  # , missing=None)
+#         'number_of_groups': Int(required=False),
+#         'date_of_start': Date(required=False)
+#     },
+#     location='query'
+# )
+# def get_groups(request, args):
+#     if request.method == 'GET':
+#         form = GroupCreateForm()
+#         gr = Group.objects.all()
+#         for key, value in args.items():
+#             gr = gr.filter(**{key: value})  # key=value
+# 
+#         return render(
+#             request,
+#             'groups/gr_list.html',
+#             {'title': 'List of groups', 'groups': gr, 'method': "get", 'args': args, 'form': form}
+#         )
