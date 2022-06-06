@@ -15,7 +15,26 @@
     </form>
 <br>
 <br>
-    {% with list_object=group.students.all on_group=False %}
-        {% include 'includes/st_list_table.html' %}
-    {% endwith %}
+<table>
+    <thead>
+    <tr>
+        <th>Teachers</th>
+    </tr>
+    </thead>
+             {% with list_object=group.teachers.all on_group=False %}
+                {% include 'includes/th_list_table.html' %}
+            {% endwith %}
+</table>
+<br>
+<table>
+    <thead>
+    <tr>
+        <th>Students</th>
+    </tr>
+    </thead>
+            {% with list_object=group.students.all on_group=False %}
+                {% include 'includes/st_list_table.html' %}
+            {% endwith %}
+</table>
+<br>
 {% endblock %}

@@ -42,6 +42,10 @@ class Group(models.Model):
         from students.models import Student
         return len(Student.objects.filter(group_id=self.group_id))
 
+    def get_number_of_teachers(self):
+        from teachers.models import Teacher
+        return len(Teacher.objects.filter(group_id=self.group_id))
+
 
 
 
