@@ -12,7 +12,7 @@ class GroupBaseForm(forms.ModelForm):
         fields = [
             # '__all__'
             'group_name',
-            'number_of_students',
+            # 'number_of_students',
             'date_of_start',
             'date_of_end',
 
@@ -27,7 +27,7 @@ class GroupCreateForm(GroupBaseForm):
     class Meta(GroupBaseForm.Meta):
         exclude = [
             # 'date_of_start',
-            'number_of_students',
+            # 'number_of_students',
             'date_of_end',
 
         ]
@@ -40,12 +40,9 @@ class GroupCreateForm(GroupBaseForm):
 
 class GroupUpdateForm(GroupBaseForm):
     class Meta(GroupBaseForm.Meta):
-        exclude = [
+        exclude = []
             # 'date_of_start',
-            'number_of_students',
-
-        ]
-
+            # 'number_of_students',
 
 class GroupFilterForm(FilterSet):
     class Meta:
