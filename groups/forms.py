@@ -55,6 +55,10 @@ class GroupFilterForm(FilterSet):
             'date_of_start': ['year', 'month', 'day'],
         }
 
+# Документация: значение ключевых слов для настройки поиска:
+# /home/user/PycharmProjects/DJANGO/venv/lib/python3.8/site-packages/django_filters/conf.py
+
+
 # Кладовка
 # def clean_last_name(self):
 #     ln = self.cleaned_data['last_name']
