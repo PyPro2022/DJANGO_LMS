@@ -22,21 +22,21 @@ Student:
 
 Student:
 
-      PKey                                                      FKey, OneToOneField
-    student_id -- name -- last_name---age ----phone_number --group_id--  
+      PKey                                                              FKey, OneToOneField
+    student_id -- first_name -- last_name---birthday ----phone_number -------group_id--  
 
 
 
 Teacher:
 
-        PKey                                                       FKey, OneToManyField
-    teacher_id -- name -- last_name---age -----phone_number -- group_id
+        PKey                                                              FKey, OneToManyField
+    teacher_id -- first_name -- last_name---birthday -----phone_number ------- group_id
 
 
 Group:
 
-          PKey                                                          FKey, OneToOneField                                         
-        group_id -- group_name -- date_of_start ---number_of_stdts------teacher_id ------- end_date
+          PKey                                                   FKey, OneToOneField                                         
+        group_id -- group_name -- date_of_start ---date_of_end------teacher_id -------create_datetime ----update_datetime
 
 ---------------------------------------------------------------------------------------------------
 ДЗ 15. Связи между таблицами (DZ15_Table_Relations)
@@ -44,15 +44,38 @@ Group:
 ###СДЕЛАНО
 
 [x] - Подключил django-filter студентам
+
 [x] - Добавил accordion в шаблон студентов
+
 [x] - Поправил модель группы и студента. Сделал миграции
+
 [x] - Поправил модель учителя. Сделал миграции
+
 [x] - Добавил поле Groups в шаблон студентов. Написал метод автоназначения группы студенту.
+
 [x] - Добавил Groups учителям. Автоназначил группы учителям. Поправил шаблон.
+
 [x] - Поправил модель группы. Добавил вычисление кол-ва студентов в группе на ходу.
+
 [x] - Разделил шаблоны list у студентов и групп. Подключил accordion.
+
 [x] - Изменил формы группам. Добавил фильтр
+
 [x] - Добавил accordion группам. Поменял тип и число полей.
+
+[x] - Поправил accordion и gr_list.html
+
+[x] - Создал st_list_table.html. Поправил вью и шаблон update для групп
+
+[x] - Поправил формы, модели и вью у студентов. Поправил модель у групп
+
+[x] - Поправил формы, модели и вью у учителей
+
+[x] - Разделил шаблоны list у всех приложений
+
+[x] - Сделал вывод учителей и студентов при обновлении группы. Поправил шаблоны list_table для всех моделей.
+
+[x] - Добавил create_datetime и update_datetime в модель группы. Нагенерил данных в базу
 
 
 ---------------------------------------------------------------------------------------------------
