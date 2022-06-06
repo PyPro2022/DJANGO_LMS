@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from .forms import GroupCreateForm, GroupFilterForm
+from .forms import GroupCreateForm, GroupFilterForm, GroupUpdateForm
 from .models import Group
 
 
@@ -44,18 +44,16 @@ def create_group(request):
 
 def update_group(request, pk):
     group = get_object_or_404(Group, pk=pk)
-    if request.method == 'GET':
-        form = GroupCreateForm(instance=group)
-    else:
-        form = GroupCreateForm(request.POST, instance=group)
+    if request.method == 'POST':
+        form = GroupUpdateForm(request.POST, instance=group)
         if form.is_valid():
             form.save()
-
             return HttpResponseRedirect(reverse('groups'))
-
+    else:
+        form = GroupUpdateForm(instance=group)
     return render(
         request, 'groups/gr_update.html',
-        {'title': 'Update group', 'form': form},
+        {'title': 'Update group', 'form': form, 'group': group},
     )
 
 
@@ -94,3 +92,20 @@ def delete_group(request, pk):
 #             'groups/gr_list.html',
 #             {'title': 'List of groups', 'groups': gr, 'method': "get", 'args': args, 'form': form}
 #         )
+
+
+# def update_group(request, pk):
+#     group = get_object_or_404(Group, pk=pk)
+#     if request.method == 'GET':
+#         form = GroupCreateForm(instance=group)
+#     else:
+#         form = GroupCreateForm(request.POST, instance=group)
+#         if form.is_valid():
+#             form.save()
+#
+#             return HttpResponseRedirect(reverse('groups'))
+#
+#     return render(
+#         request, 'groups/gr_update.html',
+#         {'title': 'Update group', 'form': form, 'group': group},
+#     )

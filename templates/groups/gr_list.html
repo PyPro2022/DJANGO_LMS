@@ -7,7 +7,7 @@
 
 {% block content %}
 
-{%with app_name=groups app_name_filter=groups_filter %}
+{%with app_name=groups app_name_filter=groups_filter route='groups'%}
 {% include 'includes/accordion.html' %}
 {% endwith %}
 

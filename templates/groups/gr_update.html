@@ -13,4 +13,7 @@
                 <input class="btn btn-outline-success" type="submit" value="Update">
         <a class="btn btn-outline-primary" href="{% url 'groups' %}">Back to list</a>
     </form>
+    {% with list_object=group.students.all on_group=False %}
+        {% include 'includes/st_list_table.html' %}
+    {% endwith %}
 {% endblock %}

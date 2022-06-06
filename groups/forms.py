@@ -41,7 +41,7 @@ class GroupCreateForm(GroupBaseForm):
 class GroupUpdateForm(GroupBaseForm):
     class Meta(GroupBaseForm.Meta):
         exclude = [
-            'date_of_start',
+            # 'date_of_start',
             'number_of_students',
 
         ]
@@ -52,7 +52,10 @@ class GroupFilterForm(FilterSet):
         model = Group
         fields = {
             'group_name': ['exact', 'icontains'],
-            'date_of_start': ['year', 'month', 'day'],
+            'date_of_start': ['exact','year', 'month', 'day'],
+        }
+        widgets = {
+            'date_of_start': forms.DateInput(attrs={'type': 'date'}),
         }
 
 # Документация: значение ключевых слов для настройки поиска:
