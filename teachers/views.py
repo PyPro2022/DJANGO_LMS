@@ -41,7 +41,7 @@ def generate_teachers(request, cnt=0, max_number=100):
 
 
 def get_teachers(request):
-    teachers = Teacher.objects.all()
+    teachers = Teacher.objects.all().select_related('group')
     teachers_filter = TeacherFilterForm(data=request.GET, queryset=teachers)
     return render(
         request,
