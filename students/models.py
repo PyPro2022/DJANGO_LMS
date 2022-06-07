@@ -60,7 +60,7 @@ class Student(models.Model):
         db_table = 'students'
 
     def __str__(self):
-        return f'{self.id}. {self.first_name} {self.last_name} - {self.age} - {self.phone_number}'
+        return f'{self.id}. {self.first_name} {self.last_name} - {self.birthday} - {self.phone_number}'
 
     def get_age(self):
         return relativedelta(datetime.date.today(), self.birthday).years

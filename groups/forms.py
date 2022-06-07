@@ -9,14 +9,15 @@ from .models import Group
 class GroupBaseForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = [
-            # '__all__'
+        fields = [     # '__all__'
             'group_name',
-            # 'number_of_students',
+            #  'number_of_students',
             'date_of_start',
             'date_of_end',
-
+            'headman',
+            # 'teacher'
         ]
+
         widgets = {
             'date_of_start': forms.DateInput(attrs={'type': 'date'}),
             'date_of_end': forms.DateInput(attrs={'type': 'date'})
@@ -40,9 +41,10 @@ class GroupCreateForm(GroupBaseForm):
 
 class GroupUpdateForm(GroupBaseForm):
     class Meta(GroupBaseForm.Meta):
-        exclude = []
-            # 'date_of_start',
-            # 'number_of_students',
+        exclude = [
+            'date_of_start',
+        ]
+
 
 class GroupFilterForm(FilterSet):
     class Meta:
