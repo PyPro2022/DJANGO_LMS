@@ -10,39 +10,39 @@ class GroupBaseForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = [     # '__all__'
-            'group_name',
+            'name',
             #  'number_of_students',
-            'date_of_start',
-            'date_of_end',
+            'start_date',
+            'end_date',
             'headman',
             # 'teacher'
         ]
 
         widgets = {
-            'date_of_start': forms.DateInput(attrs={'type': 'date'}),
-            'date_of_end': forms.DateInput(attrs={'type': 'date'})
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'})
         }
 
 
 class GroupCreateForm(GroupBaseForm):
     class Meta(GroupBaseForm.Meta):
         exclude = [
-            # 'date_of_start',
+            # 'start_date',
             # 'number_of_students',
-            'date_of_end',
+            'end_date',
 
         ]
 
     # cleaned_data
-    def clean_group_name(self):
-        gn = self.cleaned_data['group_name']
+    def clean_name(self):
+        gn = self.cleaned_data['name']
         return gn.title()
 
 
 class GroupUpdateForm(GroupBaseForm):
     class Meta(GroupBaseForm.Meta):
         exclude = [
-            'date_of_start',
+            'start_date',
         ]
 
 
@@ -50,11 +50,11 @@ class GroupFilterForm(FilterSet):
     class Meta:
         model = Group
         fields = {
-            'group_name': ['exact', 'icontains'],
-            'date_of_start': ['exact','year', 'month', 'day'],
+            'name': ['exact', 'icontains'],
+            'start_date': ['exact','year', 'month', 'day'],
         }
         widgets = {
-            'date_of_start': forms.DateInput(attrs={'type': 'date'}),
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
 # Документация: значение ключевых слов для настройки поиска:

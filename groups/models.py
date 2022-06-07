@@ -13,13 +13,7 @@ from teachers.models import Teacher
 
 
 class Group(models.Model):
-    group_id = models.BigAutoField(
-        auto_created=True,
-        primary_key=True,
-        serialize=False,
-        verbose_name='groupID'
-    )
-    group_name = models.CharField(
+    name = models.CharField(
         max_length=30,
         verbose_name='group name',
         validators=[MinLengthValidator(2)]
@@ -38,8 +32,8 @@ class Group(models.Model):
         related_name='groups'
     )
 
-    date_of_start = models.DateField(null=True, blank=True, verbose_name='date of start')
-    date_of_end = models.DateField(null=True, blank=True, verbose_name='date of end')
+    start_date = models.DateField(null=True, blank=True, verbose_name='date of start')
+    end_date = models.DateField(null=True, blank=True, verbose_name='date of end')
     create_datetime = models.DateTimeField(auto_now_add=True)
     update_datetime = models.DateTimeField(auto_now=True)
 
@@ -49,17 +43,19 @@ class Group(models.Model):
         db_table = 'groups'
 
     def __str__(self):
-        return f'{self.group_id}. {self.group_name}  -  {self.date_of_start} '
+        return f'{self.id}. {self.group_name}  -  {self.date_of_start} '
 
     def get_number_of_students(self):
         from students.models import Student
-        return len(Student.objects.filter(group_id=self.group_id))
+        return len(Student.objects.filter(id=self.id))
 
     def get_number_of_teachers(self):
         from teachers.models import Teacher
-        return len(Teacher.objects.filter(group_id=self.group_id))
+        return len(Teacher.objects.filter(id=self.id))
 
 
+    
+    
 # Кладовка
 
 # @staticmethod
@@ -111,3 +107,9 @@ class Group(models.Model):
     #         i.update_datetime = i.set_crt_upd_time(TIMESHIFT=1)
     #         i.save()
 
+    # @staticmethod
+    # def set_headman():
+    #     gr = Group.objects.all()
+    #     for i in gr:
+    #         i.headman = random.choice(Student.objects.all())
+    #         i.save()
