@@ -26,7 +26,7 @@ class AdultValidator:
 
 
 def uniqness_validator(new_phone_number):
-    from student.models import Student
-    st = Student.objects.filter(phone_number=new_phone_number).exists()
-    if st:
+    from core.models import BaseModel
+    result = BaseModel.objects.filter(phone_number=new_phone_number).exists()
+    if result:
         raise ValidationError('This phone number is not unique! Enter other phone number')

@@ -9,7 +9,7 @@ from django.db import models
 # from .validators import max_student_number_validator
 
 # from students.models import Student
-# from teachers.models import Teacher
+from teachers.models import Teacher
 
 
 class Group(models.Model):
@@ -31,12 +31,12 @@ class Group(models.Model):
         blank=True,
         related_name='headman_group'
     )
-    # teachers = models.ManyToManyField(
-    #     to=Teacher,
-    #     null=True,
-    #     blank=True,
-    #     related_name='groups'
-    # )
+    teachers = models.ManyToManyField(
+        to=Teacher,
+        null=True,
+        blank=True,
+        related_name='groups'
+    )
 
     date_of_start = models.DateField(null=True, blank=True, verbose_name='date of start')
     date_of_end = models.DateField(null=True, blank=True, verbose_name='date of end')

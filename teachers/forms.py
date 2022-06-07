@@ -14,7 +14,8 @@ class TeacherBaseForm(forms.ModelForm):
             'last_name',
             'birthday',
             'phone_number',
-            'group',
+            'salary'
+            # 'group',
         ]
         widgets = {
             'birthday': forms.DateInput(attrs={'type': 'date'}),
@@ -25,7 +26,7 @@ class TeacherCreateForm(TeacherBaseForm):
     class Meta(TeacherBaseForm.Meta):
         exclude = [
             # '__all__'
-            'group',
+            'salary',
         ]
 
     # cleaned_date
