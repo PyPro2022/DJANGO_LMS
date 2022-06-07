@@ -2,10 +2,12 @@
     <thead class="table-bordered">
     <tr>
             <th style="width: 5%">N</th>
-            <th style="width: 25%">Group</th>
-            <th style="width: 15%">Date of start</th>
-            <th style="width: 12%">Number of students</th>
-            <th style="width: 12%">Number of teachers</th>
+            <th style="width: 20%">Group</th>
+            <th style="width: 10%">Date of start</th>
+            <th style="width: 10%">Date of end</th>
+            <th style="width: 12%">Students num</th>
+            <th style="width: 12%">Teachers num</th>
+            <th>Headman</th>
 
 <!--            <th>Date of finish</th>-->
             <th style="width: 5%"><i class="bi bi-pencil-fill"></i></th>
@@ -18,9 +20,11 @@
 <!--        <td>{{ group.group_id }}</td>-->
         <td>{{ group.group_name }}</td>
         <td>{{ group.date_of_start }}</td>
+        <td>{% if group.date_of_end %}{{ group.date_of_end }}{% endif %}</td>
 <!--        <td>{%if group.number_of_students%}{{ group.number_of_students }}{%endif%}</td>-->
         <td align="center">{{ group.get_number_of_students }}</td>
         <td align="center">{{group.get_number_of_teachers}}</td>
+        <td>{{ group.headman.first_name }} {{ group.headman.last_name }}</td>
         <td><a href="{% url 'update_group' group.pk %}">Edit</a></td>
         <td><a href="{% url 'delete_group' group.pk %}">Delete</a></td>
 
