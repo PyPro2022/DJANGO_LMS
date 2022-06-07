@@ -41,7 +41,7 @@ def generate_students(request, cnt=0, max_number=100):
 
 
 def get_students(request):
-    students = Student.objects.all().select_related('group')  # , 'headman_group')
+    students = Student.objects.all().select_related('group', 'headman_group')
     students_filter = StudentFilterForm(data=request.GET, queryset=students)
     return render(
         request,
