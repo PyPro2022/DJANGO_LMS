@@ -18,9 +18,9 @@
     <tr>
         <td>{{ forloop.counter }}</td>
 <!--        <td>{{ group.group_id }}</td>-->
-        <td>{{ group.group_name }}</td>
-        <td>{{ group.date_of_start }}</td>
-        <td>{% if group.date_of_end %}{{ group.date_of_end }}{% endif %}</td>
+        <td>{{ group.name }}</td>
+        <td>{{ group.start_date }}</td>
+        <td>{% if group.end_date %}{{ group.end_date }}{% endif %}</td>
 <!--        <td>{%if group.number_of_students%}{{ group.number_of_students }}{%endif%}</td>-->
         <td align="center">{{ group.get_number_of_students }}</td>
         <td align="center">{{group.get_number_of_teachers}}</td>

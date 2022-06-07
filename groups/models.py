@@ -2,6 +2,8 @@
 
 # import datetime
 # import random
+import datetime
+import random
 
 from django.core.validators import MinLengthValidator
 from django.db import models
@@ -13,6 +15,13 @@ from teachers.models import Teacher
 
 
 class Group(models.Model):
+    group_id = models.BigAutoField(
+        auto_created=True,
+        primary_key=True,
+        serialize=False,
+        # verbose_name='group id'
+    )
+
     name = models.CharField(
         max_length=30,
         verbose_name='group name',
@@ -43,18 +52,26 @@ class Group(models.Model):
         db_table = 'groups'
 
     def __str__(self):
-        return f'{self.id}. {self.group_name}  -  {self.date_of_start} '
+        return f'{self.group_id}. {self.name} - {self.start_date} '
 
     def get_number_of_students(self):
         from students.models import Student
-        return len(Student.objects.filter(id=self.id))
+        return len(Student.objects.filter(id=self.group_id))
 
     def get_number_of_teachers(self):
         from teachers.models import Teacher
-        return len(Teacher.objects.filter(id=self.id))
+        return len(Teacher.objects.filter(id=self.group_id))
 
-
-    
+    @staticmethod
+    def gen_group():
+        list=['PHP', 'Python', 'C/C++', 'HTML', 'SQL']
+        for _ in list:
+            gr = Group(name=random.choice(list),
+                       start_date=datetime.date(random.choice([i for i in range(2022,2024)]),
+                                                random.choice([i for i in range(1,13)]),
+                                                random.choice([i for i in range(1,30)])
+                                                ))
+            gr.save()
     
 # Кладовка
 

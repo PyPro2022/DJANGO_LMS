@@ -15,7 +15,7 @@ class GroupBaseForm(forms.ModelForm):
             'start_date',
             'end_date',
             'headman',
-            # 'teacher'
+            'teachers'
         ]
 
         widgets = {

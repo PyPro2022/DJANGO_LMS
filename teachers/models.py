@@ -19,7 +19,7 @@ class Teacher(BaseModel):
     salary = models.PositiveIntegerField(default=10000)
 
     def __str__(self):
-        return f'{self.teacher_id}. {self.first_name} {self.last_name} - {self.phone_number}'
+        return f'{self.id}. {self.first_name} {self.last_name} - {self.phone_number}'
 
     def get_age(self):
         return relativedelta(datetime.date.today(), self.birthday).years
