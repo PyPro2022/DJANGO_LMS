@@ -2,6 +2,8 @@ import datetime
 
 from dateutil.relativedelta import relativedelta
 from django.core.validators import MinLengthValidator
+from django.core.exceptions import ValidationError
+
 from django.db import models
 from faker import Faker
 
@@ -37,7 +39,8 @@ class BaseModel(models.Model):
         max_length=20,
         null=True,
         blank=True,
-        validators=[MinLengthValidator(10), uniqness_validator],
+        unique=True,
+        validators=[MinLengthValidator(10)],
         verbose_name = 'phone number',
     )
 
@@ -55,10 +58,10 @@ class BaseModel(models.Model):
         )
 
         obj.save()
-
         return obj
 
     @classmethod
     def generate(cls, cnt):
         for _ in range(cnt):
             cls._generate()
+
