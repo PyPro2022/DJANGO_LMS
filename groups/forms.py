@@ -20,9 +20,9 @@ class GroupBaseForm(forms.ModelForm):
 
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
-            'end_date': forms.DateInput(attrs={'type': 'date'})
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
-
+        help_texts = {'teachers':'Use CTRL or CMD key for multiple selection'}
 
 class GroupCreateForm(GroupBaseForm):
     class Meta(GroupBaseForm.Meta):
@@ -56,10 +56,18 @@ class GroupFilterForm(FilterSet):
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
         }
+        labels ={'start_date':['','year', 'month', 'day']}
 
 # Документация: значение ключевых слов для настройки поиска:
 # /home/user/PycharmProjects/DJANGO/venv/lib/python3.8/site-packages/django_filters/conf.py
 
+# Документация: атрибуты полей формы
+# /home/user/PycharmProjects/DJANGO/venv/lib/python3.8/site-packages/django/forms/models.py
+# django.forms.models.modelform_factory
+
+# Документация: настройка виджетов
+# /home/user/PycharmProjects/DJANGO/venv/lib/python3.8/site-packages/django/forms/widgets.py
+# django.forms.widgets.ChoiceWidget
 
 # Кладовка
 # def clean_last_name(self):
