@@ -56,11 +56,11 @@ class Group(models.Model):
 
     def get_number_of_students(self):
         from students.models import Student
-        return len(Student.objects.filter(id=self.group_id))
+        return len(Student.objects.filter(group_id=self.group_id))
 
     def get_number_of_teachers(self):
-        from teachers.models import Teacher
-        return len(Teacher.objects.filter(id=self.group_id))
+        # from teachers.models import Teacher
+        return len(Group.objects.filter(group_id=self.group_id)[0].teachers.all())
 
     @staticmethod
     def gen_group():
