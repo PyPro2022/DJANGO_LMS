@@ -11,7 +11,7 @@ from django.db import models
 # from .validators import max_student_number_validator
 
 # from students.models import Student
-from teachers.models import Teacher
+from groups.models import Group
 
 
 class Course(models.Model):
@@ -52,6 +52,11 @@ class Course(models.Model):
             )
             cr.save()
     
+    def get_number_of_groups(self):
+        # from students.models import Student
+        return len(Group.objects.filter(course_id=self.course_id))
+
+
 # Кладовка
 
 # def get_number_of_students(self):

@@ -6,7 +6,7 @@
 
 {% block content %}
 <hr>
-<p>You are about to edit <br><span style="font-weight: bold;">
+<p>You are about to edit course <br><span style="font-weight: bold;">
 {{course.name}}-{{course.duration}}-{{course.price}}</span></p>
 
 <hr>
@@ -27,7 +27,7 @@
         <th>Groups</th>
     </tr>
     </thead>
-             {% with list_object=group.group_course.all on_group=False %}
+             {% with list_object=course_group on_course=False %}
                 {% include 'includes/gr_list_table.html' %}
             {% endwith %}
 </table>

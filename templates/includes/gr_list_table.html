@@ -3,7 +3,7 @@
     <tr>
             <th style="width: 5%">N</th>
             <th style="width: 10%">Group</th>
-            <th style="width: 15%">Course</th>
+        {% if on_course %} <th style="width: 15%">Course</th>{% endif %}
             <th style="width: 10%">Date of start</th>
             <th style="width: 10%">Date of end</th>
             <th style="width: 12%">Students num</th>
@@ -20,7 +20,7 @@
         <td>{{ forloop.counter }}</td>
 <!--        <td>{{ group.group_id }}</td>-->
         <td>{{ group.name }}</td>
-        <td>{{ group.course.name }}</td>
+         {% if on_course %}<td>{{ group.course.name }}</td>{% endif %}
         <td>{{ group.start_date }}</td>
         <td>{% if group.end_date %}{{ group.end_date }}{% endif %}</td>
 <!--        <td>{%if group.number_of_students%}{{ group.number_of_students }}{%endif%}</td>-->

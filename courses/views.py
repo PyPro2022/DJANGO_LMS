@@ -13,6 +13,7 @@ from django.urls import reverse
 
 from .forms import CourseCreateForm, CourseFilterForm, CourseUpdateForm
 from .models import Course
+from groups.models import Group
 
 
 def get_courses(request):
@@ -44,6 +45,7 @@ def create_course(request):
 
 def update_course(request, pk):
     course = get_object_or_404(Course, pk=pk)
+    course_group = Group.objects.filter(course_id=pk)
     if request.method == 'POST':
         form = CourseUpdateForm(request.POST, instance=course)
         if form.is_valid():
@@ -53,7 +55,7 @@ def update_course(request, pk):
         form = CourseUpdateForm(instance=course)
     return render(
         request, 'courses/cr_update.html',
-        {'title': 'Update course', 'form': form, 'course': course},
+        {'title': 'Update course', 'form': form, 'course': course, 'course_group':course_group},
     )
 
 
