@@ -2,9 +2,14 @@
 
 {% load crispy_forms_filters %}
 
-{% block title %} {{title}} {% endblock %}
+{% block title %}Update: {{group.name}}-{{group.start_date}} {% endblock %}
 
 {% block content %}
+<hr>
+<p>You are about to edit <br><span style="font-weight: bold;">
+{{group.name}}-{{group.start_date}}</span></p>
+
+<hr>
        <form method="post">
            {% csrf_token %}
                 <div class="col-md-3">

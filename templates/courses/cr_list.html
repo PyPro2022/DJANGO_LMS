@@ -7,16 +7,16 @@
 
 {% block content %}
 
-{%with app_name=groups app_name_filter=groups_filter route='groups'%}
+{%with app_name=courses app_name_filter=courses_filter route='courses'%}
 {% include 'includes/accordion.html' %}
 {% endwith %}
 
     <br>
     <br>
 
-   {# {% with list_object=groups_filter.qs on_group=True %} #}
-    {% with list_object=groups_filter.qs%}
+   {# {% with list_object=courses_filter.qs on_group=True %} #}
+    {% with list_object=courses_filter.qs%}
 
-        {% include 'includes/gr_list_table.html' %}
+        {% include 'includes/cr_list_table.html' %}
     {% endwith %}
 {% endblock %}

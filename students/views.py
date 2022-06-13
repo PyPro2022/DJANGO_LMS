@@ -76,7 +76,7 @@ def update_student(request, pk):
         form = StudentUpdateForm(instance=student)
     return render(
         request, 'students/st_update.html',
-        {'title': 'Update student', 'form': form},
+        {'title': 'Update student', 'form': form, 'student':student},
     )
 
 
