@@ -73,6 +73,22 @@
           </ul>
         </li>
         <!--Конец меню Groups -->
+
+        <!--Начало меню Courses -->
+                <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="CoursesnavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Courses
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'courses' %}">List</a></li>
+            <li><a class="dropdown-item" href="{% url 'create_course' %}">Create</a></li>
+<!--            <li><a class="dropdown-item" href="#">#Update</a></li>-->
+<!--            <li><a class="dropdown-item" href="#">#Delete</a></li>-->
+
+          </ul>
+        </li>
+        <!--Конец меню Courses -->
+
       </ul>
 
 <!--Начало Account-->
