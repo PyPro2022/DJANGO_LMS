@@ -2,9 +2,10 @@
     <thead class="table-bordered">
     <tr>
             <th style="width: 5%">N</th>
-            <th style="width: 15%">Group</th>
-            <th style="width: 15%">Date of start</th>
-            <th style="width: 15%">Date of end</th>
+            <th style="width: 10%">Group</th>
+            <th style="width: 10%">Course</th>
+            <th style="width: 10%">Date of start</th>
+            <th style="width: 10%">Date of end</th>
             <th style="width: 12%">Students num</th>
             <th style="width: 12%">Teachers num</th>
             <th>Headman</th>
@@ -19,6 +20,7 @@
         <td>{{ forloop.counter }}</td>
 <!--        <td>{{ group.group_id }}</td>-->
         <td>{{ group.name }}</td>
+        <td>{{ group.course.name }}</td>
         <td>{{ group.start_date }}</td>
         <td>{% if group.end_date %}{{ group.end_date }}{% endif %}</td>
 <!--        <td>{%if group.number_of_students%}{{ group.number_of_students }}{%endif%}</td>-->

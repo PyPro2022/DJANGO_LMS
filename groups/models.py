@@ -34,6 +34,14 @@ class Group(models.Model):
         blank=True,
         related_name='headman_group'
     )
+    course = models.OneToOneField(
+        'courses.Course',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='group_course',
+        default=None
+    )
     teachers = models.ManyToManyField(
         to=Teacher,
         null=True,
@@ -58,21 +66,27 @@ class Group(models.Model):
         from students.models import Student
         return len(Student.objects.filter(group_id=self.group_id))
 
-    def get_number_of_teachers(self):
-        # from teachers.models import Teacher
-        return len(Group.objects.filter(group_id=self.group_id)[0].teachers.all())
+    # def get_number_of_teachers(self):
+    #     # from teachers.models import Teacher
+    #     return len(Group.objects.filter(group_id=self.group_id)[0].teachers.all())
 
     @staticmethod
     def gen_group():
-        list=['PHP', 'Python', 'C/C++', 'HTML', 'SQL']
-        for _ in list:
-            gr = Group(name=random.choice(list),
+        lst = ['alfa', 'beta', 'gamma', 'delta', 'epsilon', 'theta', 'capa', 'lambda', 'sigma', 'omega']
+        for _ in lst:
+            gr = Group(name=_.capitalize(),
                        start_date=datetime.date(random.choice([i for i in range(2022,2024)]),
                                                 random.choice([i for i in range(1,13)]),
                                                 random.choice([i for i in range(1,30)])
                                                 ))
             gr.save()
-    
+
+
+    def save(self, *args, **kwargs):
+        # self.age = relativedelta(datetime.date.today(), self.birthday).years
+        # self.end_date = end_date+Group.course.duration datetime.date.today(), self.birthday).years
+        super().save(*args, **kwargs)
+
 # Кладовка
 
 # @staticmethod
