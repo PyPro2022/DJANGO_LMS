@@ -1,10 +1,9 @@
 # /home/user/PycharmProjects/DJANGO/DJANGO_LMS/groups/models.py
 
-# import datetime
-# import random
 import datetime
 import random
 
+from dateutil.relativedelta import relativedelta
 from django.core.validators import MinLengthValidator
 from django.db import models
 
@@ -85,7 +84,16 @@ class Group(models.Model):
     def save(self, *args, **kwargs):
         # self.age = relativedelta(datetime.date.today(), self.birthday).years
         # self.end_date = end_date+Group.course.duration datetime.date.today(), self.birthday).years
+        # super().save(*args, **kwargs)
         super().save(*args, **kwargs)
+        try:
+            dur = Group.objects.get(course_id=self.course_id).course.duration
+            self.end_date = self.start_date + relativedelta(weeks=dur * 2 + random.randint(0, 5))
+            super().save(*args, **kwargs)
+        except AttributeError:
+            self.end_date = None
+            super().save(*args, **kwargs)
+
 
 # Кладовка
 
