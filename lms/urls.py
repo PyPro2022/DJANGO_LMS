@@ -15,18 +15,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
 
 from core.views import index
 
+from django.contrib import admin
 
+from django.urls import include, path
 # from students.views import readme_md
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name = 'home'),
-    path('students/', include('students.urls')),  # Read
+    path('', index, name='home'),
+    path('students/', include('students.urls')),
     path('teachers/', include('teachers.urls')),
     path('groups/', include('groups.urls')),
     # path('readme', readme_md, name = 'README'),

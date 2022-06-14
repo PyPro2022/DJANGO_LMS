@@ -1,4 +1,5 @@
 # /home/user/PycharmProjects/DJANGO/DJANGO_LMS/lms/settings.py
+
 """
 Django settings for lms project.
 
@@ -10,24 +11,33 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv()
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-t@y-u@+vwo1y9-osnt94k17-_6mng05u5z^(pyk%c*p#$ys7!6'
+# SECRET_KEY = 'django-insecure-t@y-u@+vwo1y9-osnt94k17-_6mng05u5z^(pyk%c*p#$ys7!6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+DEBUG = os.getenv('DEBUG') in ['True', 'TRUE', 'true', '1', 'On', 'ON', 'on']
+
+ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS').split()]
 
 # Application definition
 
@@ -40,6 +50,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'django_filters',
 
     'students.apps.StudentsConfig',
     'teachers.apps.TeachersConfig',
@@ -133,3 +146,10 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+USE_L10N = False
+DATE_FORMAT = 'd. m. Y'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
