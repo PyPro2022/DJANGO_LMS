@@ -1,20 +1,60 @@
-# /home/user/PycharmProjects/DJANGO/DJANGO_LMS/teachers/models.py
+# .../teachers/models.py
+import datetime
 
 from django.db import models
 # from groups.models import Group
 from faker import Faker
 
+from dateutil.relativedelta import relativedelta
+from django.core.validators import MinLengthValidator
+
+from .validators import adult_validator, uniqness_validator
+from .utils import normalize_phone_number
+
+
 class Teacher (models.Model):
-    teacher_id = models.BigAutoField(primary_key=True)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+
+    teacher_id = models.BigAutoField(
+        auto_created=True,
+        primary_key=True,
+        serialize=False,
+        verbose_name='teacherID'
+    )
+    first_name = models.CharField(
+        max_length=100,
+        verbose_name='t_fname',
+        validators=[MinLengthValidator(2)]
+    )
+    last_name = models.CharField(
+        max_length=100,
+        verbose_name='t_lname',
+        validators=[MinLengthValidator(2)]
+                                 )
     age = models.PositiveIntegerField()
 
-    # def __str__(self):
-    #     return f'{self.first_name} {self.last_name}, {self.age} {self.wgroup}'
+    birthday = models.DateField(
+        default=datetime.date.today,
+        validators=[adult_validator]
+                                )
+    phone_number = models.CharField(
+        null = True,
+        blank = True,
+        max_length=20,
+        verbose_name='t_ph_number',
+        validators=[MinLengthValidator(10), uniqness_validator]
+                                    )
+
+    class Meta:
+        verbose_name = 'teacher'
+        verbose_name_plural = 'teachers'
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}, {self.age}'
+        return f'{self.teacher_id}. {self.first_name} {self.last_name} - {self.age} - {self.phone_number}'
+
+    def save(self, *args, **kwargs):
+        self.age = relativedelta(datetime.date.today(), self.birthday).years
+        # self.phone_number = normalize_phone_number(self.phone_number)
+        super().save(*args, **kwargs)
 
 
 #Пусть пока полежит ))
@@ -25,7 +65,8 @@ class Teacher (models.Model):
             tch = Teacher(
                 first_name=fk.first_name(),
                 last_name=fk.last_name(),
-                age=fk.random_int(min=25, max=55)
+                birthday = fk.date_between(start_date='-55y', end_date='-25y'),
+                phone_number= normalize_phone_number(fk.phone_number())
             )
             tch.save()
 

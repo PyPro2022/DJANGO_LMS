@@ -18,13 +18,34 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from students.views import get_students, index
-from teachers.views import generate_teachers
+from students.views import create_student, index
+from students.views import get_students, create_student #, update_student
 
+
+
+from teachers.views import generate_teachers, create_teacher, get_teachers
+
+from groups.views import get_groups, create_group
+
+# from students.views import readme_md
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('get_students/', get_students),
-    path('', index),
-    path('generate_teachers/', generate_teachers),
+    path('', index, name = 'home'),
+
+    path('students/', get_students, name = 'students'),  # Read
+    path('students/create/', create_student, name = 'create_student'),
+    # path('students/update/', update_student, name='update_student'),
+
+    path('teachers/', get_teachers, name = 'teachers'),
+    path('generate_teachers/', generate_teachers, name = 'gen_teachers'),
+    path('teachers/create/', create_teacher, name = 'create_teacher'),
+
+    path('groups/', get_groups, name = 'groups'),
+    path('groups/create/', create_group, name = 'create_group')
+
+    # path('readme', readme_md, name = 'README'),
+
+
+
 ]
