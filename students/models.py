@@ -15,26 +15,28 @@ class Student(models.Model):
 
     first_name = models.CharField(
         max_length=100,
-        verbose_name='fname',
+        verbose_name='first name',
         validators=[MinLengthValidator(2)]
     )
     last_name = models.CharField(
         max_length=100,
-        verbose_name='lname',
+        verbose_name='last name',
         validators=[MinLengthValidator(2)]
     )
     age = models.PositiveIntegerField()
 
     birthday = models.DateField(
         default=datetime.date.today,
+        verbose_name='birthday',
         validators=[adult_validator]
     )
     phone_number = models.CharField(
         null = True,
         blank = True,
         max_length=20,
-        verbose_name='st_ph_number',
-        validators=[MinLengthValidator(10), uniqness_validator])
+        verbose_name='phone number',
+        validators=[MinLengthValidator(10), uniqness_validator]
+        )
 
 
     class Meta:

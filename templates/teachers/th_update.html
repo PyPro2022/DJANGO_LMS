@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %}
+<body>
+       <form method="post">
+           {% csrf_token %}
+                <table>
+                    {{form.as_table}}
+                </table>
+                <input type="submit" value="Update">
+        <button type="submit"><a href="{% url 'teachers' %}">Back to list</a></button>
+    </form>
+</body>
+{% endblock %}

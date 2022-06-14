@@ -1,11 +1,21 @@
 # .../DJANGO_LMS/students/views.py
-from django.shortcuts import render
+__all__ = ['index',
+            'get_students',
+           'create_student',
+           'get_students',
+           'update_student',
+           'delete_student',
+
+]
+
+
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
 
 from .forms import StudentCreateForm
 from .models import Student
-from .utils import qs2html
 
 from webargs.fields import Str, Int
 from webargs.djangoparser import use_args
@@ -27,26 +37,12 @@ def index(request):
 def get_students(request, args):
     st = Student.objects.all()
     for key, value in args.items():
-        st = st.filter(**{key: value})      # key=value
-    html_form = """
-        <a href = "/"> Home </a>
-        <br><br>
-        <form method="get">
-            <label for="fname">First name:</label><br>
-            <input type="text" id="fname" name="first_name" placeholder="Bob"><br>
-            <label for="lname">Last name:</label><br>
-            <input type="text" id="lname" name="last_name" placeholder="Dilan"><br>
-            <label for="age_id">Age:</label><br>
-            <input type="number" id="age_id" name="age" placeholder="45"><br>	<br>
-
-            <input type="submit" value="Search">
-        </form>
-    """
-    html = qs2html(st)
-    response = html_form + html
-
-    return HttpResponse(response)
-    # return render(request, 'student_list_table.html')
+        st = st.filter(**{key: value})
+    return render(
+        request,
+        'students/st_list.html',
+        {'title': 'List of students', 'students': st, 'method':"get", 'args':args}
+    )
 
 
 @csrf_exempt
@@ -59,20 +55,47 @@ def create_student(request):
             form.save()
 
             return HttpResponseRedirect('/students/')
+    return render(
+        request,
+        'students/st_create.html',
+        {'title': 'Create student', 'form': form}
+    )
 
-    html_form = f"""
-            <a href = "/"> Home </a>
-        <br><br>
 
-            <form method="post">
-                <table>
-                    {form.as_table()}
-                </table>
-                <input type="submit" value="Create">
-            </form> 
-        """
+@csrf_exempt
+def update_student(request, pk):
+    student = Student.objects.get(pk=pk)
+    if request.method == 'GET':
+        form = StudentCreateForm(instance=student)
+    else:
+        form = StudentCreateForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
 
-    return HttpResponse(html_form)
+            return HttpResponseRedirect('/students/')
+
+    return render(
+        request, 'students/st_update.html',
+        {'title': 'Update student', 'form': form},
+    )
+
+
+
+
+def delete_student(request, pk):
+
+    student = get_object_or_404(Student, pk=pk)
+
+    if request.method == 'POST':
+        student.delete()
+        return HttpResponseRedirect(reverse('students'))
+
+    return render(request, 'students/st_delete.html', {'student': student})
+
+
+
+
+
 
 
 # попытка реализовть вывод содержимого _README.md на главную страницу LMS. Пусть пока полежит.
