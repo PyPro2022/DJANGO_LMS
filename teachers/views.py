@@ -5,20 +5,17 @@ __all__ = ['generate_teachers',
            'update_teacher',
            'delete_teacher',
 
-]
+           ]
 
-
-
-from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
+from webargs.djangoparser import use_args, use_kwargs  # noqa
+from webargs.fields import Int, Str   # noqa
 
 from .forms import TeacherCreateForm
 from .models import Teacher
-
-from webargs.fields import Str, Int
-from webargs.djangoparser import use_args, use_kwargs
 
 
 @use_kwargs(
@@ -26,21 +23,21 @@ from webargs.djangoparser import use_args, use_kwargs
     location='query'
 )
 def generate_teachers(request, cnt=0, max_number=100):
-        if cnt == 10:
-            Teacher.gen_teachers()
-        else:
-            Teacher.gen_teachers(cnt=cnt)
-            # return HttpResponseRedirect(reverse('teachers'))
-
-        return render(
-            request,
-            'teachers/generate_teachers.html',
-            {'title': 'Generate teachers',
-            'message01': f'Input the number of teachers (max = {max_number}) you wish to generate.',
-             'message02': f'{cnt} teacher(-s) has been generated',
-             'max':max_number}#, 'kwargs':kwargs}
-        )
-
+    if cnt == 10:
+        Teacher.gen_teachers(cnt=0)
+        return HttpResponseRedirect(reverse('teachers'))
+    else:
+        Teacher.gen_teachers(cnt=cnt)
+        if cnt:
+            return HttpResponseRedirect(reverse('teachers'))
+    return render(
+        request,
+        'teachers/generate_teachers.html',
+        {'title': 'Generate teachers',
+         'message01': f'Input the number of teachers (max = {max_number}) you wish to generate.',
+         'message02': f'{cnt} teacher(-s) has been generated',
+         'max': max_number}  # , 'kwargs':kwargs}
+    )
 
 
 @use_args(
@@ -52,16 +49,17 @@ def generate_teachers(request, cnt=0, max_number=100):
     location='query'
 )
 def get_teachers(request, args):
-    th = Teacher.objects.all()
-    for key, value in args.items():
-        th = th.filter(**{key: value})  # key=value
+    if request.method == 'GET':
+        form = TeacherCreateForm()
+        th = Teacher.objects.all()
+        for key, value in args.items():
+            th = th.filter(**{key: value})
 
-    return render(
-        request,
-        'teachers/th_list.html',
-        {'title': 'List of teachers', 'teachers': th, 'method':"get", 'args':args}
-    )
-
+        return render(
+            request,
+            'teachers/th_list.html',
+            {'title': 'List of teachers', 'teachers': th, 'method': "get", 'args': args, 'form': form}
+        )
 
 
 def create_teacher(request):
@@ -98,9 +96,7 @@ def update_teacher(request, pk):
     )
 
 
-
 def delete_teacher(request, pk):
-
     teacher = get_object_or_404(Teacher, pk=pk)
 
     if request.method == 'POST':

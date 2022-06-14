@@ -5,21 +5,17 @@ __all__ = ['get_groups',
            'update_group',
            'delete_group',
 
-]
-
-
-from django.shortcuts import render, get_object_or_404
+           ]
 
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
+
+from webargs.djangoparser import use_args
+from webargs.fields import Date, Int,  Str
 
 from .forms import GroupCreateForm
 from .models import Group
-
-from webargs.fields import Str, Int, Date
-from webargs.djangoparser import use_args
-
-from django.urls import reverse
-
 
 
 @use_args(
@@ -31,15 +27,18 @@ from django.urls import reverse
     location='query'
 )
 def get_groups(request, args):
-    gr = Group.objects.all()
-    for key, value in args.items():
-        gr = gr.filter(**{key: value})  # key=value
+    if request.method == 'GET':
+        form = GroupCreateForm()
+        gr = Group.objects.all()
+        for key, value in args.items():
+            gr = gr.filter(**{key: value})  # key=value
 
-    return render(
-        request,
-        'groups/gr_list.html',
-        {'title': 'List of groups', 'groups': gr, 'method':"get", 'args':args}
-    )
+        return render(
+            request,
+            'groups/gr_list.html',
+            {'title': 'List of groups', 'groups': gr, 'method': "get", 'args': args, 'form': form}
+        )
+
 
 def create_group(request):
     if request.method == 'GET':
@@ -74,8 +73,8 @@ def update_group(request, pk):
         {'title': 'Update group', 'form': form},
     )
 
-def delete_group(request, pk):
 
+def delete_group(request, pk):
     group = get_object_or_404(Group, pk=pk)
 
     if request.method == 'POST':
