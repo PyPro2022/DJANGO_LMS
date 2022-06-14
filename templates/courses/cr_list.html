@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_filters %}
+
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %}
+
+{%with app_name=courses app_name_filter=courses_filter route='courses'%}
+{% include 'includes/accordion.html' %}
+{% endwith %}
+
+    <br>
+    <br>
+
+   {# {% with list_object=courses_filter.qs on_group=True %} #}
+    {% with list_object=courses_filter.qs%}
+        {% include 'includes/cr_list_table.html' %}
+    {% endwith %}
+{% endblock %}

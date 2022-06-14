@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block title %}Create student{% endblock %}
+
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+                <div class="col-md-3">
+                 {{ form | crispy }}
+                 </div>
+                <input class="btn btn-outline-success" type="submit" value="Create">
+        <a class="btn btn-outline-primary" href="{% url 'students' %}">Back to list</a>
+    </form>
+{% endblock %}
+
+<!--Кладовка-->
+
+<!--        <table>-->
+<!--            {{ form.as_table }}-->
+<!--        </table>-->

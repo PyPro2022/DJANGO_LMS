@@ -1,4 +1,4 @@
-# /home/user/PycharmProjects/DJANGO/DJANGO_LMS/lms/urls.py
+# .../DJANGO_LMS/lms/urls.py
 
 """lms URL Configuration
 
@@ -15,16 +15,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+from core.views import index
+
 from django.contrib import admin
-from django.urls import path
 
-from students.views import get_students, index
-from teachers.views import generate_teachers
-
+from django.urls import include, path
+# from students.views import readme_md
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('get_students/', get_students),
-    path('', index),
-    path('generate_teachers/', generate_teachers),
+    path('', index, name='home'),
+    path('students/', include('students.urls')),
+    path('teachers/', include('teachers.urls')),
+    path('groups/', include('groups.urls')),
+    path('courses/', include('courses.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
+
 ]

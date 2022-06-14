@@ -1,0 +1,33 @@
+<table class="table table-hover table-striped">
+    <thead class="table-bordered">
+        <tr>
+            <th style="width: 5%">N</th>
+            <th style="width: 15%">First name</th>
+            <th style="width: 15%">Last name</th>
+            <th style="width: 15%">Age</th>
+<!--            <th style="width: 10%">Birthday</th>-->
+            <th style="width: 20%"><i class="bi bi-telephone-fill"></i></th>
+            {% if on_group %}<th style="width: 15%">Group</th>{% endif %}
+            <th style="width: 10%">Headman</th>
+            <th style="width: 5%"><i class="bi bi-pencil-fill"></i></th>
+            <th style="width: 5%"><i class="bi bi-trash3-fill"></i></th>
+        </tr>
+    </thead>
+    {% for student in list_object %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+<!--        <td>{{ student.id }}</td>-->
+        <td>{{ student.first_name }}</td>
+        <td>{{ student.last_name }}</td>
+        <td>{% if student.get_age %}{{ student.get_age }}{% endif %}</td>
+<!--        <td>{{ student.birthday }}</td>-->
+        <td>{% if student.phone_number %}{{ student.phone_number }}{% endif %}</td>
+            {% if on_group %}
+                <td>{% if student.group %}{{ student.group.name }}{% endif %}</td>
+            {% endif %}
+        <td>{% if student.headman_group %}<i class="bi bi-check-circle-fill"></i>{% endif %}</td>
+        <td><a href="{% url 'update_student' student.pk %}">Edit</a></td>
+        <td><a href="{% url 'delete_student' student.pk %}">Delete</a></td>
+        </tr>
+    {% endfor %}
+    </table>

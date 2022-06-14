@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block title %} List of teachers {% endblock %}
+
+{% block content %}
+
+{%with app_name=teachers app_name_filter=teachers_filter route='teachers'%}
+{% include 'includes/accordion.html' %}
+{% endwith %}
+    <br>
+    <br>
+
+    {% with list_object=teachers_filter.qs on_group=True %}
+        {% include 'includes/th_list_table.html' %}
+    {% endwith %}
+{% endblock %}
+

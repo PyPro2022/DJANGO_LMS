@@ -1,0 +1,117 @@
+{% load static %}
+
+<nav class="navbar fixed-top navbar-expand-lg mb-2" style="background-color: #000080;">
+
+<!--<nav class="navbar fixed-top navbar-expand-lg mb-2" style="background-color: #e3f2fd;">-->
+
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img src="{% static 'img/mylogo.png' %}" alt="" width="40" height="40">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <!---->
+        <!--Начало кнопки Home-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link active text-white" aria-current="page" href="/">Home</a>-->
+<!--        </li>-->
+        <!--Конец кнопки Home-->
+                  <!---->
+        <!--Начало меню Students -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="StudentnavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Students
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'students' %}">List</a></li>
+            <li><a class="dropdown-item" href="{% url 'create_student' %}">Create</a></li>
+
+<!--            <li><hr class="dropdown-divider"></li>-->
+<!--            <li><a class="dropdown-item" href="{% url 'gen_students' %}">Generate</a></li>-->
+
+            <!--            <li><a class="dropdown-item" href="#">#Update</a></li>-->
+<!--            <li><a class="dropdown-item" href="#">#Delete</a></li>-->
+
+          </ul>
+        </li>
+        <!--Конец меню Students -->
+                  <!---->
+        <!--Начало меню Teachers -->
+                <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="TeachersnavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Teachers
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'teachers' %}">List</a></li>
+            <li><a class="dropdown-item" href="{% url 'create_teacher' %}">Create</a></li>
+
+<!--             <li><hr class="dropdown-divider"></li>-->
+<!--            <li><a class="dropdown-item" href="{% url 'gen_teachers' %}">Generate</a></li>-->
+<!--            <li><a class="dropdown-item" href="#">#Update</a></li>-->
+<!--            <li><a class="dropdown-item" href="#">#Delete</a></li>-->
+
+          </ul>
+        </li>
+
+        <!--Конец меню Teachers -->
+
+
+        <!--Начало меню Groups -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="GroupsnavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Groups
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'groups' %}">List</a></li>
+            <li><a class="dropdown-item" href="{% url 'create_group' %}">Create</a></li>
+<!--            <li><a class="dropdown-item" href="#">#Update</a></li>-->
+<!--            <li><a class="dropdown-item" href="#">#Delete</a></li>-->
+
+          </ul>
+        </li>
+        <!--Конец меню Groups -->
+
+        <!--Начало меню Courses -->
+                <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="CoursesnavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Courses
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'courses' %}">List</a></li>
+            <li><a class="dropdown-item" href="{% url 'create_course' %}">Create</a></li>
+<!--            <li><a class="dropdown-item" href="#">#Update</a></li>-->
+<!--            <li><a class="dropdown-item" href="#">#Delete</a></li>-->
+
+          </ul>
+        </li>
+        <!--Конец меню Courses -->
+
+      </ul>
+
+<!--Начало Account-->
+
+<!--     <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
+       <li class="nav-item dropdown" type = "circle">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="AccountnavbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Account
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item disabled" href="#">Sigh In</a></li>
+            <li><a class="dropdown-item disabled" href="#">Sign Out</a></li>
+<!--            <li><hr class="dropdown-divider"></li>-->
+<!--            <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>-->
+          </ul>
+        </li>
+<!--    </ul>-->
+ <!--Конец Account-->
+
+{#      <form class="d-flex" role="search">#}
+{#        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">#}
+{#        <button class="btn btn-outline-success" type="submit">Search</button>#}
+{#      </form>#}
+    </div>
+  </div>
+</nav>

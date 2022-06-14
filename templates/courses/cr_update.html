@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block title %} Update:{{course.name}}{% endblock %}
+
+{% block content %}
+<hr>
+<p>You are about to edit course <br><span style="font-weight: bold;">
+{{course.name}}-{{course.duration}}-{{course.price}}</span></p>
+
+<hr>
+
+       <form method="post">
+           {% csrf_token %}
+                <div class="col-md-3">
+                 {{ form | crispy }}
+                 </div>
+                <input class="btn btn-outline-success" type="submit" value="Update">
+        <a class="btn btn-outline-primary" href="{% url 'courses' %}">Back to list</a>
+    </form>
+<br>
+<br>
+<table>
+    <thead>
+    <tr>
+        <th>Groups</th>
+    </tr>
+    </thead>
+             {% with list_object=course_group on_course=False %}
+                {% include 'includes/gr_list_table.html' %}
+            {% endwith %}
+</table>
+{% endblock %}

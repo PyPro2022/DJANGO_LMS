@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block title %}List of students{% endblock %}
+
+
+{% block content %}
+
+{%with app_name=students app_name_filter=students_filter route='students'%}
+{% include 'includes/accordion.html' %}
+{% endwith %}
+
+    <br>
+    <br>
+    {% with list_object=students_filter.qs on_group=True %}
+        {% include 'includes/st_list_table.html' %}
+    {% endwith %}
+{% endblock %}
