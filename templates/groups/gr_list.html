@@ -7,6 +7,7 @@
 
 {% block content %}
 
+
             <form method="get">
                 {% csrf_token %}
                 <div class="col-md-3">
@@ -19,6 +20,7 @@
                 {% endif%}
                 </div>
             </form>
+
 <!--        <button type="submit"><a href="create/">Create</a></button>-->
     <br>
     <br>
@@ -49,3 +51,4 @@
     {% endfor %}
     </table>
 {% endblock %}
+
