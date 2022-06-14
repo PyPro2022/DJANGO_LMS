@@ -1,4 +1,4 @@
-# /home/user/PycharmProjects/DJANGO/DJANGO_LMS/lms/urls.py
+# .../DJANGO_LMS/lms/urls.py
 
 """lms URL Configuration
 
@@ -16,36 +16,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
-from students.views import *
-from teachers.views import *
-from groups.views import *
+from core.views import index
+
 
 # from students.views import readme_md
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name = 'home'),
-
-    path('students/', get_students, name = 'students'),  # Read
-    path('students/create/', create_student, name = 'create_student'),
-    path('students/update/<int:pk>/', update_student, name='update_student'),
-    path('students/delete/<int:pk>/', delete_student, name='delete_student'),
-
-    path('teachers/', get_teachers, name = 'teachers'),
-    path('generate_teachers/', generate_teachers, name = 'gen_teachers'),
-    path('teachers/create/', create_teacher, name = 'create_teacher'),
-    path('teachers/update/<int:pk>/', update_teacher, name='update_teacher'),
-    path('teachers/delete/<int:pk>/', delete_teacher, name='delete_teacher'),
-
-    path('groups/', get_groups, name = 'groups'),
-    path('groups/create/', create_group, name = 'create_group'),
-    path('groups/update/<int:pk>/', update_group, name='update_group'),
-    path('groups/delete/<int:pk>/', delete_group, name='delete_group'),
-
+    path('students/', include('students.urls')),  # Read
+    path('teachers/', include('teachers.urls')),
+    path('groups/', include('groups.urls')),
     # path('readme', readme_md, name = 'README'),
-
-
-
 ]

@@ -7,7 +7,9 @@ from django.core.validators import MinLengthValidator
 from django.db import models
 from faker import Faker
 
-from students.validators import adult_validator, uniqness_validator
+from core.validators import AdultValidator
+from .validators import uniqness_validator
+
 from .utils import normalize_phone_number
 
 
@@ -28,7 +30,7 @@ class Student(models.Model):
     birthday = models.DateField(
         default=datetime.date.today,
         verbose_name='birthday',
-        validators=[adult_validator]
+        validators=[AdultValidator(18)]
     )
     phone_number = models.CharField(
         null = True,

@@ -8,10 +8,8 @@ __all__ = ['index',
 
 ]
 
-
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
-from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from .forms import StudentCreateForm
@@ -28,7 +26,7 @@ def index(request):
 
 @use_args(
     {
-        'first_name': Str(required=False),       # , missing=None)
+        'first_name': Str(required=False),
         'last_name': Str(required=False),
         'age': Int(required=False),
         },
@@ -45,7 +43,6 @@ def get_students(request, args):
     )
 
 
-@csrf_exempt
 def create_student(request):
     if request.method == 'GET':
         form = StudentCreateForm()
@@ -54,7 +51,7 @@ def create_student(request):
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect('/students/')
+            return HttpResponseRedirect(reverse('students'))
     return render(
         request,
         'students/st_create.html',
@@ -62,9 +59,8 @@ def create_student(request):
     )
 
 
-@csrf_exempt
 def update_student(request, pk):
-    student = Student.objects.get(pk=pk)
+    student = get_object_or_404(Student, pk=pk)
     if request.method == 'GET':
         form = StudentCreateForm(instance=student)
     else:
@@ -72,7 +68,7 @@ def update_student(request, pk):
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect('/students/')
+            return HttpResponseRedirect(reverse('students'))
 
     return render(
         request, 'students/st_update.html',
@@ -101,3 +97,4 @@ def delete_student(request, pk):
 # попытка реализовть вывод содержимого _README.md на главную страницу LMS. Пусть пока полежит.
 # def readme_md(request):
 #     return render(request, 'README.html')
+

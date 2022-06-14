@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>LMS - {{ title }}</title>
-</head>
+{% extends 'base.html' %}
+
+{% block title %} LMS - {{title}} {% endblock %}
+
+{% block content %}
+
 <body>
 <hr>
 <h2 align = "center"> Welcome to LMS teachers generator!</h2>
@@ -13,8 +13,8 @@
 <form method="get">
     <input type="number" min = 0 max ={{max}} id="cnt_id" name="cnt" placeholder="input cnt"><br>	<br>
     <input type="submit" value="Generate">
-<h5>{{message02}}</h5>
+<!--{% if cnt > 0 %}<h5>{{message02}}</h5>{% endif %}-->
     <hr>
      </form>
-</body>
-</html>
+
+{% endblock %}

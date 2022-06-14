@@ -2,7 +2,6 @@
 
 __all__ = ['get_groups',
            'create_group',
-           'get_groups',
            'update_group',
            'delete_group',
 
@@ -11,8 +10,7 @@ __all__ = ['get_groups',
 
 from django.shortcuts import render, get_object_or_404
 
-from django.http import HttpResponse, HttpResponseRedirect
-from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseRedirect
 
 from .forms import GroupCreateForm
 from .models import Group
@@ -43,7 +41,6 @@ def get_groups(request, args):
         {'title': 'List of groups', 'groups': gr, 'method':"get", 'args':args}
     )
 
-@csrf_exempt
 def create_group(request):
     if request.method == 'GET':
         form = GroupCreateForm()
@@ -52,7 +49,7 @@ def create_group(request):
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect('/groups/')
+            return HttpResponseRedirect(reverse('groups'))
 
     return render(
         request,
@@ -61,9 +58,8 @@ def create_group(request):
     )
 
 
-@csrf_exempt
 def update_group(request, pk):
-    group = Group.objects.get(pk=pk)
+    group = get_object_or_404(Group, pk=pk)
     if request.method == 'GET':
         form = GroupCreateForm(instance=group)
     else:
@@ -71,7 +67,7 @@ def update_group(request, pk):
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect('/groups/')
+            return HttpResponseRedirect(reverse('groups'))
 
     return render(
         request, 'groups/gr_update.html',

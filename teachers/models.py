@@ -1,14 +1,16 @@
 # .../teachers/models.py
+
 import datetime
 
 from django.db import models
-# from groups.models import Group
 from faker import Faker
 
 from dateutil.relativedelta import relativedelta
 from django.core.validators import MinLengthValidator
 
-from .validators import adult_validator, uniqness_validator
+from core.validators import AdultValidator
+from .validators import uniqness_validator
+
 from .utils import normalize_phone_number
 
 
@@ -35,7 +37,7 @@ class Teacher (models.Model):
     birthday = models.DateField(
         default=datetime.date.today,
         verbose_name='birthday',
-        validators=[adult_validator]
+        validators=[AdultValidator(25)]
                                 )
     phone_number = models.CharField(
         null = True,
@@ -54,7 +56,6 @@ class Teacher (models.Model):
 
     def save(self, *args, **kwargs):
         self.age = relativedelta(datetime.date.today(), self.birthday).years
-        # self.phone_number = normalize_phone_number(self.phone_number)
         super().save(*args, **kwargs)
 
 
