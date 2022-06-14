@@ -2,14 +2,13 @@
 
 import datetime
 import random
-
 from dateutil.relativedelta import relativedelta
-from django.core.validators import MinLengthValidator
+
 from django.db import models
 
+from django.core.validators import MinLengthValidator
 # from .validators import max_student_number_validator
 
-# from students.models import Student
 from teachers.models import Teacher
 
 
@@ -66,7 +65,6 @@ class Group(models.Model):
         return len(Student.objects.filter(group_id=self.group_id))
 
     def get_number_of_teachers(self):
-        # from teachers.models import Teacher
         return len(Group.objects.filter(group_id=self.group_id)[0].teachers.all())
 
     @staticmethod
@@ -80,11 +78,7 @@ class Group(models.Model):
                                                 ))
             gr.save()
 
-
     def save(self, *args, **kwargs):
-        # self.age = relativedelta(datetime.date.today(), self.birthday).years
-        # self.end_date = end_date+Group.course.duration datetime.date.today(), self.birthday).years
-        # super().save(*args, **kwargs)
         super().save(*args, **kwargs)
         try:
             dur = Group.objects.get(course_id=self.course_id).course.duration
