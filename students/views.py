@@ -7,9 +7,7 @@ __all__ = [
             'DeleteStudentView',
            ]
 
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
@@ -70,6 +68,9 @@ class DeleteStudentView(DeleteView):
 
 # from webargs.djangoparser import use_kwargs  # ,use_args
 # from webargs.fields import Int  # ,Str, Date
+# from django.http import HttpResponseRedirect
+# from django.shortcuts import get_object_or_404, render
+# from django.urls import reverse
 
 ##Вьюхи
 
