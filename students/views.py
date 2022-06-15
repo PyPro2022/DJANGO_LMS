@@ -3,13 +3,15 @@
 __all__ = ['generate_students',
            'create_student',
            'get_students',
-           'update_student',
+           # 'update_student',
            'delete_student',
+           'UpdateStudentView',
            ]
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import UpdateView
 
 from webargs.djangoparser import use_kwargs  # ,use_args
 from webargs.fields import Int  # ,Str, Date
@@ -65,19 +67,13 @@ def create_student(request):
     )
 
 
-def update_student(request, pk):
-    student = get_object_or_404(Student, pk=pk)
-    if request.method == 'POST':
-        form = StudentUpdateForm(request.POST, instance=student)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('students'))
-    else:
-        form = StudentUpdateForm(instance=student)
-    return render(
-        request, 'students/st_update.html',
-        {'title': 'Update student', 'form': form, 'student':student},
-    )
+class UpdateStudentView(UpdateView):
+    pk_url_kwarg = 'identity'
+    model = Student
+    form_class = StudentCreateForm
+    success_url = reverse_lazy('students')
+    template_name = 'students/st_update.html'
+    # context = {'title': 'Update student', 'form': form, 'student':student}
 
 
 def delete_student(request, pk):
@@ -88,6 +84,27 @@ def delete_student(request, pk):
     return render(request, 'students/st_delete.html', {'student': student})
 
 # Кладовка
+
+# def update_student(request, pk):
+#     student = get_object_or_404(Student, pk=pk)
+#     if request.method == 'POST':
+#         form = StudentUpdateForm(request.POST, instance=student)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect(reverse('students'))
+#     else:
+#         form = StudentUpdateForm(instance=student)
+#     return render(
+#         request, 'students/st_update.html',
+#         {'title': 'Update student', 'form': form, 'student':student},
+#     )
+
+
+
+
+
+
+
 # попытка реализовать вывод содержимого _README.md на главную страницу LMS. Пусть пока полежит. #noqa
 # def readme_md(request):                                                                      #noqa
 #     return render(request, 'README.html')                                                    #noqa
