@@ -30,7 +30,6 @@ class ListGroupView(ListView):
         return groups_filter
 
 
-
 class CreateGroupView(CreateView):
     model = Group
     form_class = GroupCreateForm
