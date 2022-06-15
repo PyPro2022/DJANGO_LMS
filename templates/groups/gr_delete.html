@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Delete teacher{% endblock %}
+{% block title %}Delete group{% endblock %}
 
 {% block content %}
     <form method="post">
         {% csrf_token %}
         <p>Do you really want to remove
             <span style="font-style: italic; font-weight: bold;">
-                {{ group.group_name }}
+                {{ object.name }}
             </span>?
         </p>
             <input class="btn btn-outline-danger" type="submit" value="Agree">
