@@ -16,12 +16,6 @@
 <br>
 <table>
     <caption>Groups</caption>
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th>Teachers</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--             {#{% with list_object=group.teachers.all on_group=False %}#}-->
                  {% with list_object=groups on_course=True %}
                 {% include 'includes/gr_list_table.html' %}
             {% endwith %}

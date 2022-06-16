@@ -21,22 +21,14 @@
 <br>
 <br>
 <table>
-    <thead>
-    <tr>
-        <th>Teachers</th>
-    </tr>
-    </thead>
+        <caption>Teachers</caption>
              {% with list_object=group.teachers.all on_group=False %}
                 {% include 'includes/th_list_table.html' %}
             {% endwith %}
 </table>
 <br>
 <table>
-    <thead>
-    <tr>
-        <th>Students</th>
-    </tr>
-    </thead>
+        <caption>Students</caption>
             {% with list_object=group.students.all on_group=False %}
                 {% include 'includes/st_list_table.html' %}
             {% endwith %}
