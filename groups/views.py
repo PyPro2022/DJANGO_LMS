@@ -20,6 +20,7 @@ class ListGroupView(ListView):
     model = Group
     template_name = 'groups/gr_list.html'
     context_object_name = 'groups_filter'
+    extra_context = {'title': 'List of groups'}
 
     def get_queryset(self):
         groups_filter = GroupFilterForm(

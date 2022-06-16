@@ -42,6 +42,11 @@ class UpdateTeacherView(UpdateView):
     success_url = reverse_lazy('teachers')
     template_name = 'teachers/th_update.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['groups'] = self.get_object().groups.all()
+        return context
+
 
 class DeleteTeacherView(DeleteView):
     pk_url_kwarg = 'identity'
