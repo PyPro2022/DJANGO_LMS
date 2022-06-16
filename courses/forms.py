@@ -21,6 +21,7 @@ class CourseBaseForm(forms.ModelForm):
         # }
         help_texts = {'duration':'Number of lessons'}
 
+
 class CourseCreateForm(CourseBaseForm):
     class Meta(CourseBaseForm.Meta):
         exclude = [

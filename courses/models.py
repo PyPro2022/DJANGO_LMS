@@ -1,16 +1,10 @@
 # /home/user/PycharmProjects/DJANGO/DJANGO_LMS/courses/models.py
 
-# import datetime
-# import random
-import datetime
 import random
 
 from django.core.validators import MinLengthValidator
 from django.db import models
 
-# from .validators import max_student_number_validator
-
-# from students.models import Student
 from groups.models import Group
 
 
@@ -40,7 +34,6 @@ class Course(models.Model):
     def __str__(self):
         return f'{self.name} - {self.duration} - {self.price}'
 
-
     @staticmethod
     def gen_course():
         lst = ['PMP', 'HTWL', 'Pi/Pi++', 'Brython', 'SMS', 'Pi#', 'Machine Burning', 'Data Silence', 'Jabba', 'ZQL']
@@ -48,16 +41,24 @@ class Course(models.Model):
             cr = Course(name=_,
                        duration=random.randint(8,72),
                        price=random.randint(1000,9999),
-                       #Перенести courses в модель group=
             )
             cr.save()
     
     def get_number_of_groups(self):
-        # from students.models import Student
         return len(Group.objects.filter(course_id=self.course_id))
 
 
 # Кладовка
+
+## Импорты
+
+# import datetime
+# import random
+# from .validators import max_student_number_validator
+# from students.models import Student
+
+
+## Методы
 
 # def get_number_of_students(self):
 #     from students.models import Student

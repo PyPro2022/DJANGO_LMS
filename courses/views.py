@@ -1,78 +1,88 @@
 # .../courses/views.py
-
-__all__ = ['get_courses',
-           'create_course',
-           'update_course',
-           'delete_course',
-
+__all__ = [
+            'UpdateCourseView',
+            'ListCourseView',
+            'CreateCourseView',
+            'DeleteCourseView',
            ]
 
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import DeleteView, UpdateView, CreateView, ListView
 
 from .forms import CourseCreateForm, CourseFilterForm, CourseUpdateForm
 from .models import Course
 from groups.models import Group
 
 
-def get_courses(request):
-    courses = Course.objects.all()
-    courses_filter = CourseFilterForm(data=request.GET, queryset=courses)
-    return render(
-        request,
-        'courses/cr_list.html',
-        {'courses_filter': courses_filter, 'title': 'List of courses'}  # , 'courses': courses}
-    )
+class ListCourseView(ListView):
+    model = Course
+    template_name = 'courses/cr_list.html'
+    context_object_name = 'courses_filter'
+    extra_context = {'title': 'List of courses'}
+
+    def get_queryset(self):
+        courses_filter = CourseFilterForm(
+            data=self.request.GET,
+            queryset=self.model.objects.all().select_related('group_course')
+        )
+
+        return courses_filter
 
 
-def create_course(request):
-    if request.method == 'GET':
-        form = CourseCreateForm()
-    else:
-        form = CourseCreateForm(request.POST)
-        if form.is_valid():
-            form.save()
-
-            return HttpResponseRedirect(reverse('courses'))
-
-    return render(
-        request,
-        'courses/cr_create.html',
-        {'title': 'Create course', 'form': form}
-    )
+class CreateCourseView(CreateView):
+    model = Course
+    form_class = CourseCreateForm
+    success_url = reverse_lazy('courses')
+    template_name = 'courses/cr_create.html'
+    extra_context = {'title': 'Create course'}
 
 
-def update_course(request, pk):
-    course = get_object_or_404(Course, pk=pk)
-    course_group = Group.objects.filter(course_id=pk)
-    if request.method == 'POST':
-        form = CourseUpdateForm(request.POST, instance=course)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('courses'))
-    else:
-        form = CourseUpdateForm(instance=course)
-    return render(
-        request, 'courses/cr_update.html',
-        {'title': 'Update course', 'form': form, 'course': course, 'course_group':course_group},
-    )
+class UpdateCourseView(UpdateView):
+    pk_url_kwarg = 'identity'
+    model = Course
+    form_class = CourseUpdateForm
+    success_url = reverse_lazy('courses')
+    template_name = 'courses/cr_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course_group'] = Group.objects.filter(course_id=self.get_object().course_id)
+        # context['course_group'] = self.get_object().group_course.prefetch_related('group')
+        # context['course_group'] = self.get_object().groups.prefetch_related('group_course')
+
+        return context
+
+# Group.objects.get(pk=self.self.get_object().course_id)
 
 
-def delete_course(request, pk):
-    course = get_object_or_404(Course, pk=pk)
-    if request.method == 'POST':
-        course.delete()
-        return HttpResponseRedirect(reverse('courses'))
+class DeleteCourseView(DeleteView):
+    pk_url_kwarg = 'identity'
+    model = Course
+    success_url = reverse_lazy('courses')
+    template_name = 'courses/cr_delete.html'
 
-    return render(request, 'courses/cr_delete.html', {'course': course})
+
+
 
 # Кладовка
 
+## Импорты
+
+# __all__ = ['get_courses',
+#            'create_course',
+#            'update_course',
+#            'delete_course',
+# 
+#            ]
+
 # from webargs.djangoparser import use_args
 # from webargs.fields import Date, Int,  Str
+# from django.http import HttpResponseRedirect
+# from django.shortcuts import get_object_or_404, render
+# from groups.models import Group
+# from django.urls import reverse
 
-
+## Вьюхи
 # @use_args(
 #     {
 #         'course_name': Str(required=False),  # , missing=None)
@@ -90,7 +100,7 @@ def delete_course(request, pk):
 # 
 #         return render(
 #             request,
-#             'courses/cr_list.html',
+#             'courses/cr_licr.html',
 #             {'title': 'List of courses', 'courses': gr, 'method': "get", 'args': args, 'form': form}
 #         )
 
@@ -110,3 +120,55 @@ def delete_course(request, pk):
 #         request, 'courses/cr_update.html',
 #         {'title': 'Update course', 'form': form, 'course': course},
 #     )
+
+
+# def get_courses(request):
+#     courses = Course.objects.all()
+#     courses_filter = CourseFilterForm(data=request.GET, queryset=courses)
+#     return render(
+#         request,
+#         'courses/cr_licr.html',
+#         {'courses_filter': courses_filter, 'title': 'List of courses'}  # , 'courses': courses}
+#     )
+# 
+# 
+# def create_course(request):
+#     if request.method == 'GET':
+#         form = CourseCreateForm()
+#     else:
+#         form = CourseCreateForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+# 
+#             return HttpResponseRedirect(reverse('courses'))
+# 
+#     return render(
+#         request,
+#         'courses/cr_create.html',
+#         {'title': 'Create course', 'form': form}
+#     )
+# 
+# 
+# def update_course(request, pk):
+#     course = get_object_or_404(Course, pk=pk)
+#     course_group = Group.objects.filter(course_id=pk)
+#     if request.method == 'POST':
+#         form = CourseUpdateForm(request.POST, instance=course)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect(reverse('courses'))
+#     else:
+#         form = CourseUpdateForm(instance=course)
+#     return render(
+#         request, 'courses/cr_update.html',
+#         {'title': 'Update course', 'form': form, 'course': course, 'course_group':course_group},
+#     )
+# 
+# 
+# def delete_course(request, pk):
+#     course = get_object_or_404(Course, pk=pk)
+#     if request.method == 'POST':
+#         course.delete()
+#         return HttpResponseRedirect(reverse('courses'))
+# 
+#     return render(request, 'courses/cr_delete.html', {'course': course})
