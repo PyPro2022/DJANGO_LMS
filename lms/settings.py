@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'groups.apps.GroupsConfig',
     'core.apps.CoreConfig',
     'courses.apps.CoursesConfig',
+    'accounts.apps.AccountsConfig',
 
 ]
 
