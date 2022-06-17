@@ -99,8 +99,22 @@
             Account
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item disabled" href="#">Sigh In</a></li>
-            <li><a class="dropdown-item disabled" href="#">Sign Out</a></li>
+                            {% if user.is_authenticated %}
+                                <li><a class="dropdown-item"
+                                       href="{% url 'accounts:profile_view' %}">Profile</a></li>
+                                <li><a class="dropdown-item"
+                                       href="{% url 'password_change' %}">Change password</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item"
+                                       href="{% url 'accounts:logout' %}">Sign Out</a></li>
+                            {% else %}
+                                <li><a class="dropdown-item"
+                                       href="{% url 'accounts:login' %}">Sign In</a></li>
+                                <li><a class="dropdown-item"
+                                       href="{% url 'accounts:registration' %}">Register</a></li>
+                            {% endif %}
 <!--            <li><hr class="dropdown-divider"></li>-->
 <!--            <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>-->
           </ul>
