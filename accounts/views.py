@@ -1,12 +1,17 @@
+#.../DJANGO_LMS/accounts/views.py
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+
 from django.urls import reverse
 from django.urls import reverse_lazy
+
 from django.views.generic import CreateView
 from django.views.generic.edit import ProcessFormView
 
@@ -30,14 +35,11 @@ class AccountLoginView(LoginView):
         if next_value:
             return next_value
 
-        return reverse('index')
+        return reverse_lazy('home')
 
     def form_valid(self, form):
         response = super().form_valid(form)
         messages.success(self.request, f'User <{self.request.user}> has successfully logged in.')
-        # messages.warning(self.request, f'User <{self.request.user}> has successfully logged in.')
-        # messages.error(self.request, f'User <{self.request.user}> has successfully logged in.')
-
         return response
 
 
