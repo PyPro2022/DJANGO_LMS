@@ -166,3 +166,6 @@ INTERNAL_IPS = [
 if DEBUG:
     SHELL_PLUS = 'ipython'
     SHELL_PLUS_PRINT_SQL = True
+
+
+EMAIL_PORT = 1025
