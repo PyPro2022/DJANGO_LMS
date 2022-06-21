@@ -23,7 +23,7 @@ from .forms import UserUpdateForm
 class AccountRegistrationView(CreateView):
     model = User
     template_name = 'accounts/registration.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('home')
     form_class = UserRegistrationForm
 
 
