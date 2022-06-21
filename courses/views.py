@@ -6,10 +6,13 @@ __all__ = [
             'DeleteCourseView',
            ]
 
-from django.urls import reverse, reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.urls import reverse_lazy
 from django.views.generic import DeleteView, UpdateView, CreateView, ListView
 
 from .forms import CourseCreateForm, CourseFilterForm, CourseUpdateForm
+
 from .models import Course
 from groups.models import Group
 
@@ -29,7 +32,7 @@ class ListCourseView(ListView):
         return courses_filter
 
 
-class CreateCourseView(CreateView):
+class CreateCourseView(LoginRequiredMixin, CreateView):
     model = Course
     form_class = CourseCreateForm
     success_url = reverse_lazy('courses')
@@ -37,7 +40,7 @@ class CreateCourseView(CreateView):
     extra_context = {'title': 'Create course'}
 
 
-class UpdateCourseView(UpdateView):
+class UpdateCourseView(LoginRequiredMixin, UpdateView):
     pk_url_kwarg = 'identity'
     model = Course
     form_class = CourseUpdateForm
@@ -47,15 +50,10 @@ class UpdateCourseView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['course_group'] = Group.objects.filter(course_id=self.get_object().course_id)
-        # context['course_group'] = self.get_object().group_course.prefetch_related('group')
-        # context['course_group'] = self.get_object().groups.prefetch_related('group_course')
-
         return context
 
-# Group.objects.get(pk=self.self.get_object().course_id)
 
-
-class DeleteCourseView(DeleteView):
+class DeleteCourseView(LoginRequiredMixin, DeleteView):
     pk_url_kwarg = 'identity'
     model = Course
     success_url = reverse_lazy('courses')

@@ -1,4 +1,4 @@
-# .../groups/views.py
+# ...DJANGO_LMS/groups/views.py
 __all__ = [
             'UpdateGroupView',
             'ListGroupView',
@@ -6,12 +6,12 @@ __all__ = [
             'DeleteGroupView',
            ]
 
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse, reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from .forms import GroupCreateForm, GroupFilterForm, GroupUpdateForm
+
 from .models import Group
 from students.models import Student
 
@@ -31,14 +31,14 @@ class ListGroupView(ListView):
         return groups_filter
 
 
-class CreateGroupView(CreateView):
+class CreateGroupView(LoginRequiredMixin, CreateView):
     model = Group
     form_class = GroupCreateForm
     success_url = reverse_lazy('groups')
     template_name = 'groups/gr_create.html'
 
 
-class UpdateGroupView(UpdateView):
+class UpdateGroupView(LoginRequiredMixin, UpdateView):
     model = Group
     success_url = reverse_lazy('groups')
     form_class = GroupUpdateForm
@@ -70,7 +70,7 @@ class UpdateGroupView(UpdateView):
         return response
 
 
-class DeleteGroupView(DeleteView):
+class DeleteGroupView(LoginRequiredMixin, DeleteView):
     model = Group
     success_url = reverse_lazy('groups')
     template_name = 'groups/gr_delete.html'
@@ -91,6 +91,8 @@ class DeleteGroupView(DeleteView):
 
 # from webargs.djangoparser import use_args
 # from webargs.fields import Date, Int,  Str
+# from django.http import HttpResponseRedirect
+# from django.shortcuts import get_object_or_404, render
 
 
 ##Вьюхи

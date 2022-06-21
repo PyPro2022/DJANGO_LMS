@@ -6,6 +6,7 @@ __all__ = [
             'DeleteTeacherView',
            ]
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy  # noqa
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView  # noqa
 
@@ -27,7 +28,7 @@ class ListTeacherView(ListView):
         return teachers_filter
 
 
-class CreateTeacherView(CreateView):
+class CreateTeacherView(LoginRequiredMixin, CreateView):
     model = Teacher
     form_class = TeacherCreateForm
     success_url = reverse_lazy('teachers')
@@ -35,7 +36,7 @@ class CreateTeacherView(CreateView):
     extra_context = {'title': 'Create teacher'}
 
 
-class UpdateTeacherView(UpdateView):
+class UpdateTeacherView(LoginRequiredMixin, UpdateView):
     pk_url_kwarg = 'identity'
     model = Teacher
     form_class = TeacherUpdateForm
@@ -48,7 +49,7 @@ class UpdateTeacherView(UpdateView):
         return context
 
 
-class DeleteTeacherView(DeleteView):
+class DeleteTeacherView(LoginRequiredMixin, DeleteView):
     pk_url_kwarg = 'identity'
     model = Teacher
     success_url = reverse_lazy('teachers')
