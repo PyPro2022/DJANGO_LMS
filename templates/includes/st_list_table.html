@@ -9,8 +9,10 @@
             <th style="width: 20%"><i class="bi bi-telephone-fill"></i></th>
             {% if on_group %}<th style="width: 15%">Group</th>{% endif %}
             <th style="width: 10%">Headman</th>
+            {% if user.is_authenticated %}
             <th style="width: 5%"><i class="bi bi-pencil-fill"></i></th>
             <th style="width: 5%"><i class="bi bi-trash3-fill"></i></th>
+            {% endif %}
         </tr>
     </thead>
     {% for student in list_object %}
@@ -26,8 +28,10 @@
                 <td>{% if student.group %}{{ student.group.name }}{% endif %}</td>
             {% endif %}
         <td>{% if student.headman_group %}<i class="bi bi-check-circle-fill"></i>{% endif %}</td>
+        {% if user.is_authenticated %}
         <td><a href="{% url 'update_student' student.pk %}">Edit</a></td>
         <td><a href="{% url 'delete_student' student.pk %}">Delete</a></td>
-        </tr>
+        {% endif %}
+    </tr>
     {% endfor %}
     </table>
