@@ -10,6 +10,7 @@ class CourseAdmin(admin.ModelAdmin):
         'name',
         'duration',
         'price',
+        'group_course'
             ]
 
     fields = [

@@ -37,9 +37,10 @@ class TeachersInlineTable(admin.TabularInline):
     ]
     readonly_fields = fields
     extra = 0
-    # raw_id_fields = ('teacher',)
     # show_change_link = True
 
+    # Наверно всё это можно было реализовать красиво через какой-нибудь classmethod, но времени в обрез,
+    # поэтому вот так
     def birthday(self, instance):
         return instance.teacher.birthday
 
@@ -63,11 +64,12 @@ class TeachersInlineTable(admin.TabularInline):
 
     def has_delete_permission(self, request, obj=None):
         return False
-#
+
 
 class GroupAdmin(admin.ModelAdmin):
     list_display = [
         'name',
+        'course',
         'start_date',
         'end_date',
         'headman'
