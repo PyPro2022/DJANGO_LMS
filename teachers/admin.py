@@ -6,13 +6,13 @@ from groups.models import Group
 
 
 class GroupsInlineTable(admin.TabularInline):
-    model = Group
-    fields = [
-        'name',
-        'course',
-        'start_date',
-        'end_date',
-    ]
+    model = Group.teachers.through
+    fields = ['group']
+    #     'name',
+    #     'course',
+    #     'start_date',
+    #     'end_date',
+    # ]
 
     extra = 0   # сколько доп. пустых полей будет внизу таблицы
     readonly_fields = fields
@@ -34,18 +34,19 @@ class TeacherAdmin(admin.ModelAdmin):
     list_display = [
         'first_name',
         'last_name',
+        'age',
         'salary',
     ]
 
     list_display_links = list_display  # сделать все поля ссылками
-    list_per_page = 5  # пагинация
+    list_per_page = 10  # пагинация
     search_fields = [   # панель поиска
         'first_name',
         'last_name',
     ]
-    # list_filter = [     # фильтр
-    #     'group',
-    # ]
+    list_filter = [     # фильтр
+        'groups',
+    ]
 
     fields = [              # переопределили поля на форме редактирования студента
         ('first_name', 'last_name'),
@@ -56,7 +57,7 @@ class TeacherAdmin(admin.ModelAdmin):
 
     readonly_fields = ['age']  # нередактируемое поле
 
-    # inlines = [GroupsInlineTable]
+    inlines = [GroupsInlineTable]
 
     def age(self, instance):
         return instance.get_age()
