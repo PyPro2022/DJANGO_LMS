@@ -42,7 +42,7 @@ class Group(models.Model):
     )
     teachers = models.ManyToManyField(
         to=Teacher,
-        null=True,
+        # null=True,
         blank=True,
         related_name='groups'
     )

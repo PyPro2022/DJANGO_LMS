@@ -4,8 +4,6 @@ from django.contrib import admin
 from groups.models import Group
 from students.models import Student
 
-# from teachers.models import Teacher
-
 
 class StudentsInlineTable(admin.TabularInline):
     model = Student
@@ -18,12 +16,8 @@ class StudentsInlineTable(admin.TabularInline):
 
     extra = 0   # сколько доп. пустых полей будет внизу таблицы
     readonly_fields = fields
-    # [
-    #     'first_name',
-    #     'last_name',
-    # ]
+
     # show_change_link = True  # вкл/выкл возможность редактировать поле в таблице
-    #
 
     def has_add_permission(self, request, obj):  # вкл/выкл возможность добавить новую запись в таблице
         return False
@@ -31,36 +25,45 @@ class StudentsInlineTable(admin.TabularInline):
     def has_delete_permission(self, request, obj=None):  # вкл/выкл возможность удалить запись в таблице
         return False
 
-# Подумать
 
-# class TeachersInlineTable(admin.TabularInline):
-#     model = Teacher
-#     related_name = 'groups'
-#     fields = [
-#         'first_name',
-#         'last_name',
-#         'birthday',
-#         'phone_number',
-#     ]
-#
-#     extra = 0
-#     readonly_fields = fields
-#     # [
-#     #     'first_name',
-#     #     'last_name',
-#     # ]
-#     # show_change_link = True
-#     #
-#
-#     def teachers(self, instance):
-#         return instance.objects.teachers.all()
-#
-#     def has_add_permission(self, request, obj):
-#         return False
-#
-#     def has_delete_permission(self, request, obj=None):
-#         return False
+class TeachersInlineTable(admin.TabularInline):
+    model = Group.teachers.through
+    fields = [
+        'first_name',
+        'last_name',
+        'age',
+        'phone_number',
+        'salary'
+    ]
+    readonly_fields = fields
+    extra = 0
+    # raw_id_fields = ('teacher',)
+    # show_change_link = True
 
+    def birthday(self, instance):
+        return instance.teacher.birthday
+
+    def age(self, instance):
+        return instance.teacher.get_age()
+
+    def first_name(self, instance):
+        return instance.teacher.first_name
+
+    def last_name(self, instance):
+        return instance.teacher.last_name
+
+    def salary(self, instance):
+        return instance.teacher.salary
+
+    def phone_number(self, instance):
+        return instance.teacher.phone_number
+
+    def has_add_permission(self, request, obj):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+#
 
 class GroupAdmin(admin.ModelAdmin):
     list_display = [
@@ -80,7 +83,9 @@ class GroupAdmin(admin.ModelAdmin):
 
     readonly_fields = ['create_datetime', 'update_datetime']
 
-    inlines = [StudentsInlineTable]  #, TeachersInlineTable]
+    inlines = [StudentsInlineTable, TeachersInlineTable]
+
+    # exclude = ['teachers',]
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
@@ -89,3 +94,19 @@ class GroupAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Group, GroupAdmin)
+
+
+#  Кладовка
+
+# def get_params(self,instance):
+#     # return dir(instance)
+#     return list(instance.teacher.__dict__.keys())
+
+# def pk(self, instance):
+#     return instance.pk
+#
+#
+# def teachers(self, instance):
+#     # return dir(instance.teacher)
+#     return instance.teacher.first_name + ' ' + instance.teacher.last_name
+
