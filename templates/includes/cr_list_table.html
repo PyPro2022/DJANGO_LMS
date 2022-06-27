@@ -14,7 +14,7 @@
 
     {% for course in list_object %}
     <tr>
-        <td>{{ forloop.counter }}</td>
+        <td>{{ forloop.counter|add:-1|add:page_obj.start_index}}</td>
 <!--        <td>{{ course.course_id }}</td>-->
         <td>{{ course.name }}</td>
         <td>{{ course.duration }}</td>

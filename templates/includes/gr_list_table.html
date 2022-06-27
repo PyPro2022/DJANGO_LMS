@@ -19,7 +19,7 @@
 
     {% for group in list_object %}
     <tr>
-        <td>{{ forloop.counter }}</td>
+        <td>{{ forloop.counter|add:-1|add:page_obj.start_index}}</td>
 <!--        <td>{{ group.group_id }}</td>-->
         <td>{{ group.name }}</td>
          {% if on_course %}<td>{{ group.course.name }}</td>{% endif %}
