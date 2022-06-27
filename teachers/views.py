@@ -17,15 +17,21 @@ from .models import Teacher  # noqa
 class ListTeacherView(ListView):
     model = Teacher
     template_name = 'teachers/th_list.html'
-    context_object_name = 'teachers_filter'
+    paginate_by = 5
 
-    def get_queryset(self):
-        teachers_filter = TeacherFilterForm(
+    def get_filter(self):
+        return TeacherFilterForm(
             data=self.request.GET,
-            queryset=self.model.objects.all()  # .select_related('group', 'headman_group')
+            queryset=self.model.objects.all()
         )
 
-        return teachers_filter
+    def get_queryset(self):
+        return self.get_filter().qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['teachers_filter'] = self.get_filter().form
+        return context
 
 
 class CreateTeacherView(LoginRequiredMixin, CreateView):
@@ -74,6 +80,21 @@ class DeleteTeacherView(LoginRequiredMixin, DeleteView):
 
 
 ##ВЬюхи
+
+
+# class ListTeacherView(ListView):
+#     model = Teacher
+#     template_name = 'teachers/th_list.html'
+#     context_object_name = 'teachers_filter'
+#
+#     def get_queryset(self):
+#         teachers_filter = TeacherFilterForm(
+#             data=self.request.GET,
+#             queryset=self.model.objects.all()  # .select_related('group', 'headman_group')
+#         )
+#
+#         return teachers_filter
+
 
 # def get_teachers(request):
 #     teachers = Teacher.objects.all()

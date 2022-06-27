@@ -15,7 +15,9 @@
     <br>
 
    {# {% with list_object=courses_filter.qs on_group=True %} #}
-    {% with list_object=courses_filter.qs%}
+    {#{% with list_object=courses_filter.qs%}#}
+
+{% with list_object=object_list %}
         {% include 'includes/cr_list_table.html' %}
     {% endwith %}
 {% endblock %}

@@ -12,7 +12,9 @@
     <br>
     <br>
 
-    {% with list_object=teachers_filter.qs on_group=True %}
+    {#{% with list_object=teachers_filter.qs on_group=True %}#}
+
+    {% with list_object=object_list on_group=True %}
         {% include 'includes/th_list_table.html' %}
     {% endwith %}
 {% endblock %}

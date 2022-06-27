@@ -14,7 +14,9 @@
     <br>
     <br>
 
-   {% with list_object=groups_filter.qs on_course=True %}
+   {#{% with list_object=groups_filter.qs on_course=True %}#}
+
+{% with list_object=object_list on_course=True %}
         {% include 'includes/gr_list_table.html' %}
     {% endwith %}
 {% endblock %}

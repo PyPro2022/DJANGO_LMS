@@ -19,7 +19,6 @@ from .models import Student
 class ListStudentView(ListView):
     model = Student
     template_name = 'students/st_list.html'
-    # context_object_name = 'students_list'
     paginate_by = 10
 
     def get_filter(self):

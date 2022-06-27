@@ -20,17 +20,34 @@ from groups.models import Group
 class ListCourseView(ListView):
     model = Course
     template_name = 'courses/cr_list.html'
-    context_object_name = 'courses_filter'
+    # context_object_name = 'courses_filter'
     extra_context = {'title': 'List of courses'}
+    paginate_by = 5
 
-    def get_queryset(self):
-        courses_filter = CourseFilterForm(
+
+    def get_filter(self):
+        return CourseFilterForm(
             data=self.request.GET,
             queryset=self.model.objects.all().select_related('group_course')
         )
 
-        return courses_filter
+    def get_queryset(self):
+        return self.get_filter().qs
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['courses_filter'] = self.get_filter().form
+        return context
+
+
+    # def get_queryset(self):
+    #     courses_filter = CourseFilterForm(
+    #         data=self.request.GET,
+    #         queryset=self.model.objects.all().select_related('group_course')
+    #     )
+    #
+    #     return courses_filter
+    #
 
 class CreateCourseView(LoginRequiredMixin, CreateView):
     model = Course
@@ -81,6 +98,22 @@ class DeleteCourseView(LoginRequiredMixin, DeleteView):
 # from django.urls import reverse
 
 ## Вьюхи
+
+# class ListCourseView(ListView):
+#     model = Course
+#     template_name = 'courses/cr_list.html'
+#     context_object_name = 'courses_filter'
+#     extra_context = {'title': 'List of courses'}
+#
+#     def get_queryset(self):
+#         courses_filter = CourseFilterForm(
+#             data=self.request.GET,
+#             queryset=self.model.objects.all().select_related('group_course')
+#         )
+#
+#         return courses_filter
+
+
 # @use_args(
 #     {
 #         'course_name': Str(required=False),  # , missing=None)

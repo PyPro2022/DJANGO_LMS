@@ -19,16 +19,22 @@ from students.models import Student
 class ListGroupView(ListView):
     model = Group
     template_name = 'groups/gr_list.html'
-    context_object_name = 'groups_filter'
     extra_context = {'title': 'List of groups'}
+    paginate_by = 5
 
-    def get_queryset(self):
-        groups_filter = GroupFilterForm(
+    def get_filter(self):
+        return GroupFilterForm(
             data=self.request.GET,
             queryset=self.model.objects.all().select_related('course', 'headman')
         )
 
-        return groups_filter
+    def get_queryset(self):
+        return self.get_filter().qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['groups_filter'] = self.get_filter().form
+        return context
 
 
 class CreateGroupView(LoginRequiredMixin, CreateView):
@@ -96,6 +102,22 @@ class DeleteGroupView(LoginRequiredMixin, DeleteView):
 
 
 ##Вьюхи
+
+# class ListGroupView(ListView):
+#     model = Group
+#     template_name = 'groups/gr_list.html'
+#     context_object_name = 'groups_filter'
+#     extra_context = {'title': 'List of groups'}
+#
+#     def get_queryset(self):
+#         groups_filter = GroupFilterForm(
+#             data=self.request.GET,
+#             queryset=self.model.objects.all().select_related('course', 'headman')
+#         )
+#
+#         return groups_filter
+
+
 # def get_groups(request):
 #     groups = Group.objects.all()
 #     groups_filter = GroupFilterForm(data=request.GET, queryset=groups)
