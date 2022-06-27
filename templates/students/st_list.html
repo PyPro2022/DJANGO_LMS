@@ -7,13 +7,18 @@
 
 {% block content %}
 
+{# {%with app_name=students app_name_filter=students_filter route='students'%} #}
+
 {%with app_name=students app_name_filter=students_filter route='students'%}
 {% include 'includes/accordion.html' %}
 {% endwith %}
 
     <br>
     <br>
-    {% with list_object=students_filter.qs on_group=True %}
+<!--здесь поменять-->
+    {#{% with list_object=students_filter on_group=True %}#}
+
+{% with list_object=object_list on_group=True %}
         {% include 'includes/st_list_table.html' %}
     {% endwith %}
 {% endblock %}

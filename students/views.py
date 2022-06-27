@@ -19,15 +19,22 @@ from .models import Student
 class ListStudentView(ListView):
     model = Student
     template_name = 'students/st_list.html'
-    context_object_name = 'students_filter'
+    # context_object_name = 'students_list'
+    paginate_by = 10
 
-    def get_queryset(self):
-        students_filter = StudentFilterForm(
+    def get_filter(self):
+        return StudentFilterForm(
             data=self.request.GET,
             queryset=self.model.objects.all().select_related('group', 'headman_group')
         )
 
-        return students_filter
+    def get_queryset(self):
+        return self.get_filter().qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['students_filter'] = self.get_filter().form
+        return context
 
 
 class CreateStudentView(LoginRequiredMixin, CreateView):
