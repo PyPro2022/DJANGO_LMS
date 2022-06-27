@@ -54,6 +54,9 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'django_filters',
     'debug_toolbar',
+    'django.contrib.flatpages',
+    'django.contrib.sites',
+    # 'ckeditor',
 
     'students.apps.StudentsConfig',
     'teachers.apps.TeachersConfig',
@@ -73,6 +76,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'core.middlewares.CalculateRequestTimeMiddleware',
 
 ]
@@ -170,3 +174,6 @@ if DEBUG:
 
 
 EMAIL_PORT = 1025
+
+SITE_ID = 1
+CKEDITOR_UPLOAD_PATH = 'uploads/'
