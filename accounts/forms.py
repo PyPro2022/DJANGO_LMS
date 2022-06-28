@@ -34,7 +34,8 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = [
             'birthday',
-            'city'
+            'city',
+            'avatar',
         ]
 
         widgets = {

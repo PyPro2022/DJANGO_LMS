@@ -105,8 +105,10 @@
 <!--     <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
        <li class="nav-item dropdown" type = "circle">
            {% if user.is_authenticated %}
-              <img class="rounded-circle" width="30" height="30" src="{% static 'img/default.png' %}" alt="avatar">
-
+<!--              <img class="rounded-circle" width="30" height="30" src="{% static 'img/default.png' %}" alt="avatar">-->
+            <div class="col-md-0">
+              <img src="{{ user.profile.avatar.url }}" class="rounded-circle" width="30" height="30" alt="avatar">
+            </div>
                 <a class="nav-link dropdown-toggle text-white" href="#" id="AccountnavbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 {{ user.username }}
 <!--                {{ user.email }}-->

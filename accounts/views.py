@@ -23,8 +23,13 @@ from .forms import UserUpdateForm
 class AccountRegistrationView(CreateView):
     model = User
     template_name = 'accounts/registration.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('accounts:profile_view')
     form_class = UserRegistrationForm
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, f'User <{self.request.user}> successfully registred. Sign in for visiting site')
+        return response
 
 
 class AccountLoginView(LoginView):
@@ -60,7 +65,7 @@ class AccountUpdateView(LoginRequiredMixin, ProcessFormView):
         user = self.request.user
         profile = user.profile
         user_form = UserUpdateForm(instance=user, data=request.POST)
-        profile_form = ProfileUpdateForm(instance=profile, data=request.POST)
+        profile_form = ProfileUpdateForm(instance=profile, data=request.POST, files=request.FILES)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
